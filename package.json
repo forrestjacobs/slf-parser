@@ -1,0 +1,44 @@
+{
+  "name": "slf-parser",
+  "version": "0.1.0",
+  "description": "Parses Go diagrams",
+  "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
+  "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "@types/js-yaml": "^3.11.2",
+    "jest": "^22.4.3",
+    "js-yaml": "^3.12.0",
+    "rollup": "^0.62.0",
+    "rollup-plugin-commonjs": "^9.0.0",
+    "rollup-plugin-node-resolve": "^3.2.0",
+    "rollup-plugin-typescript2": "^0.15.1",
+    "rollup-plugin-uglify": "^4.0.0",
+    "ts-jest": "^22.4.2",
+    "tslint": "^5.10.0",
+    "tslint-consistent-codestyle": "^1.13.2",
+    "tslint-sonarts": "^1.7.0",
+    "typescript": "^2.9.2"
+  },
+  "main": "./dist/bundle.js",
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "test": "npm run build && jest --no-cache",
+    "precommit": "npm run lint && npm test"
+  },
+  "jest": {
+    "transform": {
+      "\\.ts$": "ts-jest"
+    },
+    "testRegex": "test\\.ts$",
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "dist/bundle.js"
+    ]
+  }
+}

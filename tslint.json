@@ -1,0 +1,71 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-consistent-codestyle",
+    "tslint-sonarts"
+  ],
+  "rules": {
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "object-literal-sort-keys": [true, "match-declaration-order"],
+    "early-exit": true,
+    "naming-convention": [
+      true,
+      {
+        "type": "default",
+        "format": "camelCase",
+        "leadingUnderscore": "forbid",
+        "trailingUnderscore": "forbid"
+      },
+      {
+        "type": "variable",
+        "modifiers": [
+          "global",
+          "const"
+        ],
+        "format": "UPPER_CASE"
+      },
+      {
+        "type": "functionVariable",
+        "modifiers": [
+          "export",
+          "const"
+        ],
+        "format": "camelCase"
+      },
+      {
+        "type": "parameter",
+        "modifiers": "unused",
+        "leadingUnderscore": "allow"
+      },
+      {
+        "type": "property",
+        "modifiers": [
+          "public",
+          "static",
+          "const"
+        ],
+        "format": "UPPER_CASE"
+      },
+      {
+        "type": "type",
+        "format": "PascalCase"
+      },
+      {
+        "type": "enumMember",
+        "format": "PascalCase"
+      }
+    ],
+    "no-accessor-recursion": true,
+    "no-collapsible-if": true,
+    "no-unnecessary-else": true,
+    "no-return-undefined": true,
+    "no-static-this": true,
+    "no-unnecessary-type-annotation": true,
+    "no-var-before-return": true,
+    "prefer-const-enum": true,
+    "prefer-while": true
+  }
+}

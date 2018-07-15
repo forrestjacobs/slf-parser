@@ -1,0 +1,12 @@
+name: an empty diagram
+diagram: >
+  $$
+  $$ .
+board:
+  borders:
+    east:  false
+    north: false
+    south: false
+    west:  false
+  lines: []
+  cells: []

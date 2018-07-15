@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "target": "ES5",
+    "moduleResolution": "Node",
+    "lib": [
+      "es6"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "inlineSourceMap": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "strict": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}
