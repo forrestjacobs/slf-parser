@@ -4,8 +4,21 @@ import { toBoard } from "../dist/bundle.js";
 
 const FIXTURE_PATH = "./test";
 
-function testDocument({diagram, board}: any) {
-  expect(toBoard(diagram)).toEqual(board);
+function testDocument({diagram, error, board}: any) {
+  try {
+    const result = toBoard(diagram);
+    if (error) {
+      fail("Expected error, but it did not occur");
+    }
+    for (const key of Object.keys(board)) {
+      expect(result[key]).toEqual(board[key]);
+    }
+  } catch (exception) {
+    if (error) {
+      return;
+    }
+    throw new Error(`${exception.message}\nDiagram:\n${diagram}\nLocation: ${JSON.stringify(exception.location)}`);
+  }
 }
 
 function testFixture(filename: string) {

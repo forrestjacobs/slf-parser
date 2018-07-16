@@ -1,14 +1,8 @@
 import { Board } from "./board";
+import { generateBoard } from "./generate-board";
+import { parse } from "./parse.pegjs";
 
 export function toBoard(slf: string): Board {
-  return {
-    cells: [],
-    lines: [],
-    borders: {
-      north: false,
-      east: false,
-      south: false,
-      west: false,
-    },
-  };
+  const parseTree = parse(slf);
+  return generateBoard(parseTree);
 }

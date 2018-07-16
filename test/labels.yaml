@@ -1,0 +1,30 @@
+name: Numbered labels
+diagram: |
+  $$
+  $$ 1 2
+board:
+  cells:
+    -
+      - { type: black, label: "1" }
+      - { type: white, label: "2" }
+
+---
+
+name: 10 label
+diagram: |
+  $$
+  $$ 0
+board:
+  cells: [[{ type: white, label: "10" }]]
+
+---
+
+name: Character labels
+diagram: |
+  $$
+  $$ a b
+board:
+  cells:
+    -
+      - { type: intersection, label: a }
+      - { type: intersection, label: b }

@@ -1,0 +1,23 @@
+name: Empty
+diagram: ""
+error: yes
+---
+name: Missing second line
+diagram: "$$"
+error: yes
+---
+name: Missing $$
+diagram: "a"
+error: yes
+---
+name: Missing second line contents
+diagram: "$$\n"
+error: yes
+---
+name: Bad cell type
+diagram: "$$\n$$*"
+error: yes
+---
+name: After EOL
+diagram: "$$\n$$.\na"
+error: yes

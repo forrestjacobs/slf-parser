@@ -1,0 +1,32 @@
+name: Stones
+diagram: |
+  $$
+  $$ X O
+board:
+  cells:
+    -
+      - type: black
+      - type: white
+
+---
+
+name: Intersections
+diagram: |
+  $$
+  $$ . ,
+board:
+  cells:
+    -
+      - type: intersection
+      - type: star
+
+---
+
+name: Empty
+diagram: |
+  $$
+  $$ _
+board:
+  cells:
+    -
+      - type: empty

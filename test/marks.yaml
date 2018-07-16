@@ -1,0 +1,23 @@
+name: Markup
+diagram: |
+  $$
+  $$ B # Y Z
+  $$ W @ Q P
+  $$ C S T M
+board:
+  cells:
+    -
+      - { type: black, mark: circle }
+      - { type: black, mark: square }
+      - { type: black, mark: triangle }
+      - { type: black, mark: cross }
+    -
+      - { type: white, mark: circle }
+      - { type: white, mark: square }
+      - { type: white, mark: triangle }
+      - { type: white, mark: cross }
+    -
+      - { type: intersection, mark: circle }
+      - { type: intersection, mark: square }
+      - { type: intersection, mark: triangle }
+      - { type: intersection, mark: cross }

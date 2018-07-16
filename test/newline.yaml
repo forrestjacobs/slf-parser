@@ -1,0 +1,11 @@
+name: LF newline
+diagram: "$$\n$$."
+board:
+  cells: [[ type: intersection ]]
+
+---
+
+name: CR LF newline
+diagram: "$$\r\n$$."
+board:
+  cells: [[ type: intersection ]]

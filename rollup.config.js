@@ -1,4 +1,5 @@
 import commonjs from "rollup-plugin-commonjs";
+import pegjs from "rollup-plugin-pegjs";
 import resolve from "rollup-plugin-node-resolve";
 import typescript from "typescript";
 import typescriptPlugin from "rollup-plugin-typescript2";
@@ -7,8 +8,13 @@ import { uglify } from "rollup-plugin-uglify";
 function makePlugins(min) {
   var plugins = [
     resolve(),
+    pegjs({
+      optimize: min ? "size" : "speed",
+      target: "cjs",
+    }),
     commonjs({
-      extensions: [".js"],
+      extensions: [".js", ".pegjs"],
+      namedExports: { "src/parse.pegjs": ["parse"] },
     }),
     typescriptPlugin({ typescript }),
   ];

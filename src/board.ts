@@ -33,6 +33,7 @@ export const enum CellType {
   Black = "black",
   White = "white",
   Intersection = "intersection",
+  Star = "star",
   Empty = "empty",
 }
 
