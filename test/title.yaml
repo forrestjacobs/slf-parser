@@ -1,0 +1,22 @@
+name: Title
+diagram: |
+  $$ Title
+  $$ .
+board:
+  title: Title
+
+---
+
+name: No title
+diagram: |
+  $$
+  $$ .
+board:
+  title: !!js/undefined
+
+---
+
+name: Title with whitespace
+diagram: "$$ \t this is the title \t \n$$."
+board:
+  title: this is the title

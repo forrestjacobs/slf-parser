@@ -3,6 +3,7 @@ export interface Row {
 }
 
 export interface ParseTree {
+  title: string;
   rows: Row[];
 }
 

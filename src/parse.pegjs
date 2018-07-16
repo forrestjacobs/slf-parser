@@ -1,6 +1,7 @@
 diagram
-  = dd rows: row+ EOL
-    { return { rows: rows }; }
+  = dd _ title: $(!EOL .)* _
+    rows: row+ EOL
+    { return { title: title, rows: rows }; }
 
 row
   = delim cells: cell+
