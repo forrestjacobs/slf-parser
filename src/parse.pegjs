@@ -1,5 +1,6 @@
 diagram
   = dd
+    firstPlayer: [BW]?
     startingNumber: startingNumber?
     _ title: $(!EOL .)* _
     northBorder: edge?
@@ -7,6 +8,7 @@ diagram
     southBorder: edge?
     EOL
     { return {
+      firstPlayer: firstPlayer,
       startingNumber: startingNumber,
       title: title,
       northBorder: northBorder !== null,

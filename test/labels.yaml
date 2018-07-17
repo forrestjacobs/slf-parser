@@ -10,6 +10,30 @@ board:
 
 ---
 
+name: Black explicitly first
+diagram: |
+  $$B
+  $$ 1 2
+board:
+  cells:
+    -
+      - { type: black, label: "1" }
+      - { type: white, label: "2" }
+
+---
+
+name: White first
+diagram: |
+  $$W
+  $$ 1 2
+board:
+  cells:
+    -
+      - { type: white, label: "1" }
+      - { type: black, label: "2" }
+
+---
+
 name: 10 label
 diagram: |
   $$
@@ -41,6 +65,18 @@ board:
       - { type: black, label: "99" }
       - { type: white, label: "0" }
       - { type: black, label: "1" }
+
+---
+
+name: Even moves are white
+diagram: |
+  $$m2
+  $$ 1 2
+board:
+  cells:
+    -
+      - { type: white, label: "2" }
+      - { type: black, label: "3" }
 
 ---
 

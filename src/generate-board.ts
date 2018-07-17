@@ -36,13 +36,15 @@ const MARK_FOR_TOKEN: {[token: string]: Mark} = {
   "Z": Mark.Cross,
 };
 
-export function generateBoard({ startingNumber, title, northBorder, rows, southBorder }: ParseTree): Board {
+export function generateBoard(tree: ParseTree): Board {
+  const { firstPlayer, startingNumber, title, northBorder, rows, southBorder } = tree;
+  const blackFirst = firstPlayer !== "W";
 
   function tokenToCell(token: string): Cell {
     const tokenNum = +token;
     if (!isNaN(tokenNum)) {
       const num = (startingNumber || 1) + (tokenNum === 0 ? 10 : tokenNum) - 1;
-      const type = num % 2 === 1 ? CellType.Black : CellType.White;
+      const type = (num % 2 === 1 ? blackFirst : !blackFirst) ? CellType.Black : CellType.White;
       return {type, label: `${num % 100}`};
     }
     const mappedType = TYPE_FOR_TOKEN[token];

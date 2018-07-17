@@ -5,6 +5,7 @@ export interface Row {
 }
 
 export interface ParseTree {
+  firstPlayer: "B" | "W" | undefined;
   startingNumber?: number;
   title: string;
   northBorder: boolean;
