@@ -1,0 +1,53 @@
+name: NE borders
+diagram: |
+  $$
+  $$ --
+  $$ . |
+board:
+  borders:
+    north: true
+    east:  true
+    south: false
+    west:  false
+
+---
+
+name: SE borders
+diagram: |
+  $$
+  $$ . |
+  $$ --
+board:
+  borders:
+    north: false
+    east:  true
+    south: true
+    west:  false
+
+---
+
+name: SW borders
+diagram: |
+  $$
+  $$ | .
+  $$  --
+board:
+  borders:
+    north: false
+    east:  false
+    south: true
+    west:  true
+
+---
+
+name: NW borders
+diagram: |
+  $$
+  $$  --
+  $$ | .
+board:
+  borders:
+    north: true
+    east:  false
+    south: false
+    west:  true

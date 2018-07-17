@@ -50,16 +50,16 @@ function tokenToCell(token: string): Cell {
   return { type: CellType.Intersection, label: token };
 }
 
-export function generateBoard({ title, rows }: ParseTree): Board {
+export function generateBoard({ title, northBorder, rows, southBorder }: ParseTree): Board {
   return {
     title: title === "" ? undefined : title,
     cells: rows.map((row) => row.cells.map(tokenToCell)),
     lines: [],
     borders: {
-      north: false,
-      east: false,
-      south: false,
-      west: false,
+      north: northBorder,
+      east: rows[0].eastBorder,
+      south: southBorder,
+      west: rows[0].westBorder,
     },
   };
 }
