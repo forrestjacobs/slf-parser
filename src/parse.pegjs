@@ -6,6 +6,7 @@ diagram
     northBorder: edge?
     rows: row+
     southBorder: edge?
+    meta: meta*
     EOL
     { return {
       firstPlayer: firstPlayer,
@@ -13,7 +14,8 @@ diagram
       title: title,
       northBorder: northBorder !== null,
       rows: rows,
-      southBorder: southBorder !== null
+      southBorder: southBorder !== null,
+      meta: meta
     }; }
 
 startingNumber = "m" v: natural { return v; }
@@ -26,6 +28,11 @@ cell = v: [0-9a-z.,XOBW#@YQZPCSTM_] _ { return v; }
 
 edge = delim (border border+) _
 border = [+\-|]
+
+meta = link
+link
+  = delim "[" _ cell: cell "|" _ href: $(!(_ "]" EOL) .)* _ "]" _
+    { return {type: "link", cell: cell, href: href}; }
 
 natural = v: $([1-9][0-9]*) { return +v; }
 delim = nl dd _

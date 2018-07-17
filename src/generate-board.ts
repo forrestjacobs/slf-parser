@@ -37,21 +37,29 @@ const MARK_FOR_TOKEN: {[token: string]: Mark} = {
 };
 
 export function generateBoard(tree: ParseTree): Board {
-  const { firstPlayer, startingNumber, title, northBorder, rows, southBorder } = tree;
+  const { firstPlayer, startingNumber, title, northBorder, rows, southBorder, meta } = tree;
   const blackFirst = firstPlayer !== "W";
 
+  const links: {[key: string]: string} = {};
+  for (const metaItem of meta) {
+    if (metaItem.type === "link") {
+      links[metaItem.cell] = metaItem.href;
+    }
+  }
+
   function tokenToCell(token: string): Cell {
+    const link = links[token];
     const tokenNum = +token;
     if (!isNaN(tokenNum)) {
       const num = (startingNumber || 1) + (tokenNum === 0 ? 10 : tokenNum) - 1;
       const type = (num % 2 === 1 ? blackFirst : !blackFirst) ? CellType.Black : CellType.White;
-      return {type, label: `${num % 100}`};
+      return {type, label: `${num % 100}`, link};
     }
     const mappedType = TYPE_FOR_TOKEN[token];
     if (mappedType !== undefined) {
-      return { type: mappedType, mark: MARK_FOR_TOKEN[token] };
+      return { type: mappedType, link, mark: MARK_FOR_TOKEN[token] };
     }
-    return { type: CellType.Intersection, label: token };
+    return { type: CellType.Intersection, label: token, link };
   }
 
   return {

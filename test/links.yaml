@@ -1,0 +1,13 @@
+name: Links
+diagram: |
+  $$
+  $$ 1 X a
+  $$ [ 1 | http://example.com/1 ]
+  $$ [ X | http://example.com/2 ]
+  $$ [ a | http://example.com/3 ]
+board:
+  cells:
+    -
+      - { type: black, label: "1", link: http://example.com/1 }
+      - { type: black, link: http://example.com/2 }
+      - { type: intersection, label: "a", link: http://example.com/3 }
