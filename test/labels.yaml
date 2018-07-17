@@ -19,6 +19,31 @@ board:
 
 ---
 
+name: Starting number
+diagram: |
+  $$m5
+  $$ 1 2
+board:
+  cells:
+    -
+      - { type: black, label: "5" }
+      - { type: white, label: "6" }
+
+---
+
+name: Label mod 100
+diagram: |
+  $$m99
+  $$ 1 2 3
+board:
+  cells:
+    -
+      - { type: black, label: "99" }
+      - { type: white, label: "0" }
+      - { type: black, label: "1" }
+
+---
+
 name: Character labels
 diagram: |
   $$

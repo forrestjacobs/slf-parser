@@ -5,6 +5,7 @@ export interface Row {
 }
 
 export interface ParseTree {
+  startingNumber?: number;
   title: string;
   northBorder: boolean;
   rows: Row[];

@@ -6,6 +6,10 @@ name: Missing second line
 diagram: "$$"
 error: yes
 ---
+name: Missing starting number after "m"
+diagram: "$$m\n$$"
+error: yes
+---
 name: Missing $$
 diagram: "a"
 error: yes
