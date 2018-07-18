@@ -39,7 +39,7 @@ diagram: |
   $$
   $$ 0
 board:
-  cells: [[{ type: white, label: "10" }]]
+  cells: [[ label: "10" ]]
 
 ---
 
@@ -62,9 +62,9 @@ diagram: |
 board:
   cells:
     -
-      - { type: black, label: "99" }
-      - { type: white, label: "0" }
-      - { type: black, label: "1" }
+      - label: "99"
+      - label: "0"
+      - label: "1"
 
 ---
 

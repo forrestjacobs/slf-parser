@@ -4,9 +4,9 @@
   "description": "Parses Go diagrams",
   "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
   "devDependencies": {
-    "@types/jest": "^22.2.2",
+    "@types/jest": "^23.3.0",
     "@types/js-yaml": "^3.11.2",
-    "jest": "^22.4.3",
+    "jest": "^23.4.1",
     "js-yaml": "^3.12.0",
     "rollup": "^0.62.0",
     "rollup-plugin-commonjs": "^9.0.0",
