@@ -1,39 +1,24 @@
 import { Board, Cell, CellType, Mark } from "./board";
 import { ParseTree } from "./parse.pegjs";
 
-const TYPE_FOR_TOKEN: {[token: string]: CellType} = {
-  "#": CellType.Black,
-  ",": CellType.Star,
-  ".": CellType.Intersection,
-  "@": CellType.White,
-  "B": CellType.Black,
-  "C": CellType.Intersection,
-  "M": CellType.Intersection,
-  "O": CellType.White,
-  "P": CellType.White,
-  "Q": CellType.White,
-  "S": CellType.Intersection,
-  "T": CellType.Intersection,
-  "W": CellType.White,
-  "X": CellType.Black,
-  "Y": CellType.Black,
-  "Z": CellType.Black,
-  "_": CellType.Empty,
-};
-
-const MARK_FOR_TOKEN: {[token: string]: Mark} = {
-  "#": Mark.Square,
-  "@": Mark.Square,
-  "B": Mark.Circle,
-  "C": Mark.Circle,
-  "M": Mark.Cross,
-  "P": Mark.Cross,
-  "Q": Mark.Triangle,
-  "S": Mark.Square,
-  "T": Mark.Triangle,
-  "W": Mark.Circle,
-  "Y": Mark.Triangle,
-  "Z": Mark.Cross,
+const CELL_FOR_TOKEN: {[token: string]: Cell} = {
+  "#": { type: CellType.Black, mark: Mark.Square },
+  ",": { type: CellType.Star },
+  ".": { type: CellType.Intersection },
+  "@": { type: CellType.White, mark: Mark.Square },
+  "B": { type: CellType.Black, mark: Mark.Circle },
+  "C": { type: CellType.Intersection, mark: Mark.Circle },
+  "M": { type: CellType.Intersection, mark: Mark.Cross },
+  "O": { type: CellType.White },
+  "P": { type: CellType.White, mark: Mark.Cross },
+  "Q": { type: CellType.White, mark: Mark.Triangle },
+  "S": { type: CellType.Intersection, mark: Mark.Square },
+  "T": { type: CellType.Intersection, mark: Mark.Triangle },
+  "W": { type: CellType.White, mark: Mark.Circle },
+  "X": { type: CellType.Black },
+  "Y": { type: CellType.Black, mark: Mark.Triangle },
+  "Z": { type: CellType.Black, mark: Mark.Cross },
+  "_": { type: CellType.Empty },
 };
 
 export function generateBoard(tree: ParseTree): Board {
@@ -53,22 +38,12 @@ export function generateBoard(tree: ParseTree): Board {
       const num = (startingNumber || 1) + (token === "0" ? 10 : +token) - 1;
       const type = (num % 2 === 1 ? blackFirst : !blackFirst) ? CellType.Black : CellType.White;
       cell = {type, label: `${num % 100}`};
-    } else if (TYPE_FOR_TOKEN[token]) {
-      cell = { type: TYPE_FOR_TOKEN[token] };
-      const mark = MARK_FOR_TOKEN[token];
-      if (mark) {
-        cell.mark = mark;
-      }
     } else {
-      cell = { type: CellType.Intersection, label: token };
+      cell = CELL_FOR_TOKEN[token] || { type: CellType.Intersection, label: token };
     }
 
     const link = links[token];
-    if (link) {
-      cell.link = link;
-    }
-
-    return cell;
+    return link ? { ...cell, link } : cell;
   }
 
   return {
