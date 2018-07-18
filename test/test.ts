@@ -8,11 +8,13 @@ const FIXTURES = readdirSync(FIXTURE_PATH).filter((filename) => filename.endsWit
 describe.each(FIXTURES)("%s", (filename) => {
   const yaml = readFileSync(`${FIXTURE_PATH}/${filename}`, "utf8");
   const documents = safeLoadAll(yaml).map((document) => [document.name, document]);
-  it.each(documents)("%s", (name, {diagram, error, board}) => {
+  it.each(documents)("%s", (name, {diagram, match, error, board}) => {
     if (error) {
-      return expect(() => toBoard(diagram)).toThrow();
+      expect(() => toBoard(diagram)).toThrow();
+    } else if (match === "exact") {
+      expect(toBoard(diagram)).toStrictEqual(board);
+    } else {
+      expect(toBoard(diagram)).toMatchObject(board);
     }
-
-    expect(toBoard(diagram)).toMatchObject(board);
   });
 });

@@ -1,0 +1,43 @@
+name: A joseki variation
+diagram: |
+  $$ A joseki variation
+  $$  --------
+  $$ | 7 3 X d
+  $$ | O 1 O 6
+  $$ | 4 2 5 c
+  $$ | 8 X a .
+  $$ | . b . .
+match: exact
+board:
+  title: A joseki variation
+  borders:
+    north: true
+    east:  false
+    south: false
+    west:  true
+  cells:
+    -
+      - { type: black, label: "7" }
+      - { type: black, label: "3" }
+      - { type: black }
+      - { type: intersection, label: "d" }
+    -
+      - { type: white }
+      - { type: black, label: "1" }
+      - { type: white }
+      - { type: white, label: "6" }
+    -
+      - { type: white, label: "4" }
+      - { type: white, label: "2" }
+      - { type: black, label: "5" }
+      - { type: intersection, label: "c" }
+    -
+      - { type: white, label: "8" }
+      - { type: black }
+      - { type: intersection, label: "a" }
+      - { type: intersection }
+    -
+      - { type: intersection }
+      - { type: intersection, label: "b" }
+      - { type: intersection }
+      - { type: intersection }

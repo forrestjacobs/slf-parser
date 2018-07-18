@@ -14,7 +14,7 @@ export type MetaItem = LinkMetaItem;
 
 export interface ParseTree {
   firstPlayer: "B" | "W" | undefined;
-  startingNumber?: number;
+  startingNumber: number | null;
   title: string;
   northBorder: boolean;
   rows: Row[];

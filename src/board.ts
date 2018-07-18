@@ -3,7 +3,7 @@ export const COLUMN_ALPHA = "ABCDEFGHJKLMNOPQRST";
 export interface Board {
   title?: string;
   cells: Cell[][];
-  lines: Line[];
+  lines?: Line[];
   borders: {
     north: boolean;
     east: boolean;

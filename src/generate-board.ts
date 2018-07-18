@@ -48,24 +48,32 @@ export function generateBoard(tree: ParseTree): Board {
   }
 
   function tokenToCell(token: string): Cell {
-    const link = links[token];
-    const tokenNum = +token;
-    if (!isNaN(tokenNum)) {
-      const num = (startingNumber || 1) + (tokenNum === 0 ? 10 : tokenNum) - 1;
+    let cell: Cell;
+    if (!isNaN(+token)) {
+      const num = (startingNumber || 1) + (token === "0" ? 10 : +token) - 1;
       const type = (num % 2 === 1 ? blackFirst : !blackFirst) ? CellType.Black : CellType.White;
-      return {type, label: `${num % 100}`, link};
+      cell = {type, label: `${num % 100}`};
+    } else if (TYPE_FOR_TOKEN[token]) {
+      cell = { type: TYPE_FOR_TOKEN[token] };
+      const mark = MARK_FOR_TOKEN[token];
+      if (mark) {
+        cell.mark = mark;
+      }
+    } else {
+      cell = { type: CellType.Intersection, label: token };
     }
-    const mappedType = TYPE_FOR_TOKEN[token];
-    if (mappedType !== undefined) {
-      return { type: mappedType, link, mark: MARK_FOR_TOKEN[token] };
+
+    const link = links[token];
+    if (link) {
+      cell.link = link;
     }
-    return { type: CellType.Intersection, label: token, link };
+
+    return cell;
   }
 
   return {
     title: title === "" ? undefined : title,
     cells: rows.map((row) => row.cells.map(tokenToCell)),
-    lines: [],
     borders: {
       north: northBorder,
       east: rows[0].eastBorder,
