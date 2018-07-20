@@ -11,8 +11,7 @@ name: No title
 diagram: |
   $$
   $$ .
-board:
-  title: !!js/undefined
+lacks: title
 
 ---
 

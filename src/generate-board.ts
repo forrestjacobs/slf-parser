@@ -46,8 +46,7 @@ export function generateBoard(tree: ParseTree): Board {
     return link ? { ...cell, link } : cell;
   }
 
-  return {
-    title: title === "" ? undefined : title,
+  const board: Board = {
     cells: rows.map((row) => row.cells.map(tokenToCell)),
     borders: {
       north: northBorder,
@@ -56,4 +55,10 @@ export function generateBoard(tree: ParseTree): Board {
       west: rows[0].westBorder,
     },
   };
+
+  if (title !== "") {
+    board.title = title;
+  }
+
+  return board;
 }
