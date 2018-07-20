@@ -1,0 +1,65 @@
+name: Full board
+diagram: |
+  $$c
+  $$  -------
+  $$ | . . . |
+  $$ | . . . |
+  $$ | . . . |
+  $$  -------
+board:
+  axes:
+    x:
+      start: A
+      position: south
+    y:
+      start: 3
+      position: west
+
+---
+
+name: NW
+diagram: |
+  $$c
+  $$  --
+  $$ | .
+board:
+  axes:
+    x:
+      start: A
+      position: north
+    y:
+      start: 19
+      position: west
+
+---
+
+name: NW small
+diagram: |
+  $$c13
+  $$  --
+  $$ | .
+board:
+  axes:
+    x:
+      start: A
+      position: north
+    y:
+      start: 13
+      position: west
+
+---
+
+name: SE
+diagram: |
+  $$c
+  $$ . . . |
+  $$ . . . |
+  $$ ------
+board:
+  axes:
+    x:
+      start: R
+      position: south
+    y:
+      start: 2
+      position: east

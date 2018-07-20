@@ -1,6 +1,8 @@
 diagram
   = dd
     firstPlayer: [BW]?
+    showAxis: "c"?
+    size: natural?
     startingNumber: startingNumber?
     _ title: $(!EOL .)* _
     northBorder: edge?
@@ -10,6 +12,8 @@ diagram
     EOL
     { return {
       firstPlayer: firstPlayer,
+      showAxis: showAxis === "c",
+      size: size,
       startingNumber: startingNumber,
       title: title,
       northBorder: northBorder !== null,

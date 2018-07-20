@@ -13,7 +13,9 @@ export interface LinkMetaItem {
 export type MetaItem = LinkMetaItem;
 
 export interface ParseTree {
-  firstPlayer: "B" | "W" | undefined;
+  firstPlayer: "B" | "W" | null;
+  showAxis: boolean;
+  size: number | null;
   startingNumber: number | null;
   title: string;
   northBorder: boolean;

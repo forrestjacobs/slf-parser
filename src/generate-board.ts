@@ -1,4 +1,4 @@
-import { Board, Cell, CellType, Mark } from "./board";
+import { Board, Cell, CellType, Mark, COLUMN_ALPHA } from "./board";
 import { ParseTree } from "./parse.pegjs";
 
 const CELL_FOR_TOKEN: {[token: string]: Cell} = {
@@ -22,8 +22,11 @@ const CELL_FOR_TOKEN: {[token: string]: Cell} = {
 };
 
 export function generateBoard(tree: ParseTree): Board {
-  const { firstPlayer, startingNumber, title, northBorder, rows, southBorder, meta } = tree;
+  const { firstPlayer, showAxis, size, startingNumber, title, northBorder, rows, southBorder, meta } = tree;
   const blackFirst = firstPlayer !== "W";
+
+  const numRows = rows.length;
+  const { westBorder, cells: { length: numCols }, eastBorder } = rows[0];
 
   const links: {[key: string]: string} = {};
   for (const metaItem of meta) {
@@ -50,14 +53,32 @@ export function generateBoard(tree: ParseTree): Board {
     cells: rows.map((row) => row.cells.map(tokenToCell)),
     borders: {
       north: northBorder,
-      east: rows[0].eastBorder,
+      east: eastBorder,
       south: southBorder,
-      west: rows[0].westBorder,
+      west: westBorder,
     },
   };
 
   if (title !== "") {
     board.title = title;
+  }
+
+  if (showAxis) {
+    const width = size || westBorder && eastBorder && numCols || 19;
+    const height = size || northBorder && southBorder && numRows || 19;
+    const colOffset = westBorder ? 0 : width - numCols;
+    const rowOffset = northBorder ? 0 : height - numRows;
+
+    board.axes = {
+      x: {
+        start: COLUMN_ALPHA.charAt(colOffset),
+        position: southBorder ? "south" : "north",
+      },
+      y: {
+        start: height - rowOffset,
+        position: westBorder ? "west" : "east",
+      },
+    };
   }
 
   return board;
