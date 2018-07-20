@@ -1,4 +1,4 @@
-import { Board, Cell, CellType, Mark, COLUMN_ALPHA } from "./board";
+import { Board, Cell, CellType, COLUMN_ALPHA, Mark } from "./board";
 import { ParseTree } from "./parse.pegjs";
 
 const CELL_FOR_TOKEN: {[token: string]: Cell} = {
@@ -21,12 +21,35 @@ const CELL_FOR_TOKEN: {[token: string]: Cell} = {
   "_": { type: CellType.Empty },
 };
 
-export function generateBoard(tree: ParseTree): Board {
-  const { firstPlayer, showAxis, size, startingNumber, title, northBorder, rows, southBorder, meta } = tree;
-  const blackFirst = firstPlayer !== "W";
+function makeAxes(tree: ParseTree): Board["axes"] {
+  const { size, northBorder, rows, southBorder } = tree;
 
   const numRows = rows.length;
-  const { westBorder, cells: { length: numCols }, eastBorder } = rows[0];
+  const { westBorder, cells, eastBorder } = rows[0];
+  const numCols = cells.length;
+
+  const width = size || westBorder && eastBorder && numCols || 19;
+  const height = size || northBorder && southBorder && numRows || 19;
+  const colOffset = westBorder ? 0 : width - numCols;
+  const rowOffset = northBorder ? 0 : height - numRows;
+
+  return {
+    x: {
+      start: COLUMN_ALPHA.charAt(colOffset),
+      position: southBorder ? "south" : "north",
+    },
+    y: {
+      start: height - rowOffset,
+      position: westBorder ? "west" : "east",
+    },
+  };
+}
+
+export function generateBoard(tree: ParseTree): Board {
+  const { firstPlayer, showAxis, startingNumber, title, northBorder, rows, southBorder, meta } = tree;
+  const { westBorder, eastBorder } = rows[0];
+
+  const blackFirst = firstPlayer !== "W";
 
   const links: {[key: string]: string} = {};
   for (const metaItem of meta) {
@@ -64,21 +87,7 @@ export function generateBoard(tree: ParseTree): Board {
   }
 
   if (showAxis) {
-    const width = size || westBorder && eastBorder && numCols || 19;
-    const height = size || northBorder && southBorder && numRows || 19;
-    const colOffset = westBorder ? 0 : width - numCols;
-    const rowOffset = northBorder ? 0 : height - numRows;
-
-    board.axes = {
-      x: {
-        start: COLUMN_ALPHA.charAt(colOffset),
-        position: southBorder ? "south" : "north",
-      },
-      y: {
-        start: height - rowOffset,
-        position: westBorder ? "west" : "east",
-      },
-    };
+    board.axes = makeAxes(tree);
   }
 
   return board;
