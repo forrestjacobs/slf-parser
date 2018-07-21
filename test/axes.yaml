@@ -17,49 +17,49 @@ board:
 
 ---
 
-name: NW
+name: NE
 diagram: |
   $$c
-  $$  --
-  $$ | .
+  $$ ----
+  $$ . . |
 board:
   axes:
     x:
-      start: A
+      start: S
       position: north
     y:
       start: 19
-      position: west
+      position: east
 
 ---
 
-name: NW small
+name: NE small
 diagram: |
   $$c13
-  $$  --
+  $$ ----
+  $$ . . |
+board:
+  axes:
+    x:
+      start: M
+      position: north
+    y:
+      start: 13
+      position: east
+
+---
+
+name: SW
+diagram: |
+  $$c
   $$ | .
+  $$ | .
+  $$  --
 board:
   axes:
     x:
       start: A
-      position: north
-    y:
-      start: 13
-      position: west
-
----
-
-name: SE
-diagram: |
-  $$c
-  $$ . . . |
-  $$ . . . |
-  $$ ------
-board:
-  axes:
-    x:
-      start: R
       position: south
     y:
       start: 2
-      position: east
+      position: west
