@@ -4,6 +4,7 @@ import resolve from "rollup-plugin-node-resolve";
 import typescript from "typescript";
 import typescriptPlugin from "rollup-plugin-typescript2";
 import { uglify } from "rollup-plugin-uglify";
+import gzip from "rollup-plugin-gzip";
 
 function makePlugins(min) {
   var plugins = [
@@ -27,19 +28,22 @@ function makePlugins(min) {
       },
       toplevel: true,
     }));
+    plugins.push(gzip());
   }
 
   return plugins;
 }
 
+const input = "src/index.ts";
+
 export default [
   {
-    input: "src/index.ts",
+    input,
     output: { file: "dist/bundle.js", format: "cjs" },
-    plugins: makePlugins(false),
+    plugins: makePlugins(),
   },
   {
-    input: "src/index.ts",
+    input,
     output: { file: "dist/bundle.min.js", format: "cjs" },
     plugins: makePlugins(true),
   },
