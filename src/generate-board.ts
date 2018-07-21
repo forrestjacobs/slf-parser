@@ -1,5 +1,8 @@
-import { Board, Cell, CellType, COLUMN_ALPHA, Line, LineType, Mark, Point } from "./board";
-import { ParsePoint, ParsePointType, ParseTree } from "./parse.pegjs";
+import { makeAxes } from "./axes";
+import { Board, Cell, CellType, Mark } from "./board";
+import { getDimensions } from "./dimensions";
+import { makeLines } from "./lines";
+import { ParseTree } from "./parse.pegjs";
 
 const CELL_FOR_TOKEN: {[token: string]: Cell} = {
   "#": { type: CellType.Black, mark: Mark.Square },
@@ -20,76 +23,6 @@ const CELL_FOR_TOKEN: {[token: string]: Cell} = {
   "Z": { type: CellType.Black, mark: Mark.Cross },
   "_": { type: CellType.Empty },
 };
-
-interface BoardDimensions {
-  width: number;
-  height: number;
-  rowOffset: number;
-  colOffset: number;
-}
-
-function getDimensions(tree: ParseTree): BoardDimensions {
-  const { size, northBorder, rows, southBorder } = tree;
-
-  const numRows = rows.length;
-  const { westBorder, cells, eastBorder } = rows[0];
-  const numCols = cells.length;
-
-  const width = size || westBorder && eastBorder && numCols || 19;
-  const height = size || northBorder && southBorder && numRows || 19;
-  const colOffset = westBorder ? 0 : width - numCols;
-  const rowOffset = northBorder ? 0 : height - numRows;
-
-  return { width, height, rowOffset, colOffset };
-}
-
-function makeAxes(tree: ParseTree, dimensions: BoardDimensions): Board["axes"] {
-  const { rows, southBorder } = tree;
-  const { westBorder } = rows[0];
-  const { height, colOffset, rowOffset } = dimensions;
-
-  return {
-    x: {
-      start: COLUMN_ALPHA.charAt(colOffset),
-      position: southBorder ? "south" : "north",
-    },
-    y: {
-      start: height - rowOffset,
-      position: westBorder ? "west" : "east",
-    },
-  };
-}
-
-function makeLines(tree: ParseTree, dimensions: BoardDimensions): Line[] {
-  const { height, colOffset, rowOffset } = dimensions;
-
-  function toPoint(parsePoint: ParsePoint): Point {
-    if (parsePoint.type === ParsePointType.Board) {
-      return {
-        row: height - parsePoint.row - rowOffset,
-        col: COLUMN_ALPHA.indexOf(parsePoint.col) - colOffset,
-      };
-    }
-    return {
-      row: parsePoint.row - 1,
-      col: parsePoint.col - 1,
-    };
-  }
-
-  const lines: Line[] = [];
-  for (const metaItem of tree.meta) {
-    if (metaItem.type === "link") {
-      continue;
-    }
-
-    lines.push({
-      type: metaItem.type === "AR" ? LineType.Arrow : LineType.Line,
-      start: toPoint(metaItem.start),
-      end: toPoint(metaItem.end),
-    });
-  }
-  return lines;
-}
 
 export function generateBoard(tree: ParseTree): Board {
   const { firstPlayer, showAxis, startingNumber, title, northBorder, rows, southBorder, meta } = tree;
