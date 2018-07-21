@@ -10,7 +10,29 @@ export interface LinkMetaItem {
   href: string;
 }
 
-export type MetaItem = LinkMetaItem;
+export const enum ParsePointType { Absolute = 0, Board = 1 }
+
+export interface AbsoluteParsePoint {
+  type: ParsePointType.Absolute;
+  row: number;
+  col: number;
+}
+
+export interface BoardParsePoint {
+  type: ParsePointType.Board;
+  row: number;
+  col: string;
+}
+
+export type ParsePoint = AbsoluteParsePoint | BoardParsePoint;
+
+export interface LineMetaItem {
+  type: "AR" | "LN";
+  start: ParsePoint;
+  end: ParsePoint;
+}
+
+export type MetaItem = LinkMetaItem | LineMetaItem;
 
 export interface ParseTree {
   firstPlayer: "B" | "W" | null;

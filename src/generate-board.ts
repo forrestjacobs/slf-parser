@@ -1,5 +1,5 @@
-import { Board, Cell, CellType, COLUMN_ALPHA, Mark } from "./board";
-import { ParseTree } from "./parse.pegjs";
+import { Board, Cell, CellType, COLUMN_ALPHA, Line, LineType, Mark, Point } from "./board";
+import { ParsePoint, ParsePointType, ParseTree } from "./parse.pegjs";
 
 const CELL_FOR_TOKEN: {[token: string]: Cell} = {
   "#": { type: CellType.Black, mark: Mark.Square },
@@ -45,6 +45,46 @@ function makeAxes(tree: ParseTree): Board["axes"] {
   };
 }
 
+function makeLines(tree: ParseTree): Line[] {
+  const { size, northBorder, rows, southBorder, meta } = tree;
+
+  const numRows = rows.length;
+  const { westBorder, cells, eastBorder } = rows[0];
+  const numCols = cells.length;
+
+  const width = size || westBorder && eastBorder && numCols || 19;
+  const height = size || northBorder && southBorder && numRows || 19;
+  const colOffset = westBorder ? 0 : width - numCols;
+  const rowOffset = northBorder ? 0 : height - numRows;
+
+  function toPoint(parsePoint: ParsePoint): Point {
+    if (parsePoint.type === ParsePointType.Board) {
+      return {
+        row: height - parsePoint.row - rowOffset,
+        col: COLUMN_ALPHA.indexOf(parsePoint.col) - colOffset,
+      };
+    }
+    return {
+      row: parsePoint.row - 1,
+      col: parsePoint.col - 1,
+    };
+  }
+
+  const lines: Line[] = [];
+  for (const metaItem of meta) {
+    if (metaItem.type === "link") {
+      continue;
+    }
+
+    lines.push({
+      type: metaItem.type === "AR" ? LineType.Arrow : LineType.Line,
+      start: toPoint(metaItem.start),
+      end: toPoint(metaItem.end),
+    });
+  }
+  return lines;
+}
+
 export function generateBoard(tree: ParseTree): Board {
   const { firstPlayer, showAxis, startingNumber, title, northBorder, rows, southBorder, meta } = tree;
   const { westBorder, eastBorder } = rows[0];
@@ -88,6 +128,11 @@ export function generateBoard(tree: ParseTree): Board {
 
   if (showAxis) {
     board.axes = makeAxes(tree);
+  }
+
+  const lines = makeLines(tree);
+  if (lines.length !== 0) {
+    board.lines = lines;
   }
 
   return board;

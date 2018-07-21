@@ -1,0 +1,69 @@
+name: Basic line
+diagram: |
+  $$
+  $$ . . . .
+  $$ . . . .
+  $$ {LN 4:1 3:2}
+board:
+  lines:
+    - type: line
+      start: { row: 0, col: 3 }
+      end:   { row: 1, col: 2 }
+
+---
+
+name: Basic arrow
+diagram: |
+  $$
+  $$ . . . .
+  $$ . . . .
+  $$ {AR 4:1 3:2}
+board:
+  lines:
+    - type: arrow
+      start: { row: 0, col: 3 }
+      end:   { row: 1, col: 2 }
+
+---
+
+name: NE
+diagram: |
+  $$
+  $$ --------
+  $$ . . . . |
+  $$ . . . . |
+  $$ {LN R19 Q18}
+board:
+  lines:
+    - start: { row: 0, col: 1 }
+      end:   { row: 1, col: 0 }
+
+
+---
+
+name: NE small
+diagram: |
+  $$13
+  $$ --------
+  $$ . . . . |
+  $$ . . . . |
+  $$ {LN L13 K12}
+board:
+  lines:
+    - start: { row: 0, col: 1 }
+      end:   { row: 1, col: 0 }
+
+
+---
+
+name: SW
+diagram: |
+  $$
+  $$ | . . . .
+  $$ | . . . .
+  $$  --------
+  $$ {LN D2 C1}
+board:
+  lines:
+    - start: { row: 0, col: 3 }
+      end:   { row: 1, col: 2 }
