@@ -1,15 +1,14 @@
 import { COLUMN_ALPHA, Line, LineType, Point } from "./board";
-import { BoardDimensions } from "./dimensions";
 import { ParsePoint, ParsePointType, ParseTree } from "./parse.pegjs";
 
-export function makeLines(tree: ParseTree, dimensions: BoardDimensions): Line[] {
-  const { height, colOffset, rowOffset } = dimensions;
+export function makeLines(tree: ParseTree, offset: Point): Line[] {
+  const { col, row } = offset;
 
   function toPoint(parsePoint: ParsePoint): Point {
     if (parsePoint.type === ParsePointType.Board) {
       return {
-        row: height - parsePoint.row - rowOffset,
-        col: COLUMN_ALPHA.indexOf(parsePoint.col) - colOffset,
+        row: row - parsePoint.row,
+        col: COLUMN_ALPHA.indexOf(parsePoint.col) - col,
       };
     }
     return {

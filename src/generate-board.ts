@@ -1,14 +1,14 @@
 import { makeAxes } from "./axes";
 import { Board } from "./board";
 import { makeCellFn } from "./cell";
-import { getDimensions } from "./dimensions";
 import { makeLines } from "./lines";
+import { getOffset } from "./offset";
 import { ParseTree } from "./parse.pegjs";
 
 export function generateBoard(tree: ParseTree): Board {
   const { title, rows } = tree;
   const firstRow = rows[0];
-  const dimensions = getDimensions(tree);
+  const dimensions = getOffset(tree);
 
   const makeCell = makeCellFn(tree);
 

@@ -1,15 +1,14 @@
-import { Board, COLUMN_ALPHA } from "./board";
-import { BoardDimensions } from "./dimensions";
+import { Board, COLUMN_ALPHA, Point } from "./board";
 import { ParseTree } from "./parse.pegjs";
 
-export function makeAxes(tree: ParseTree, dimensions: BoardDimensions): Board["axes"] {
+export function makeAxes(tree: ParseTree, offset: Point): Board["axes"] {
   return {
     x: {
-      start: COLUMN_ALPHA.charAt(dimensions.colOffset),
+      start: COLUMN_ALPHA.charAt(offset.col),
       position: tree.southBorder ? "south" : "north",
     },
     y: {
-      start: dimensions.height - dimensions.rowOffset,
+      start: offset.row,
       position: tree.rows[0].westBorder ? "west" : "east",
     },
   };
