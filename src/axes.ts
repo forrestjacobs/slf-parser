@@ -3,18 +3,14 @@ import { BoardDimensions } from "./dimensions";
 import { ParseTree } from "./parse.pegjs";
 
 export function makeAxes(tree: ParseTree, dimensions: BoardDimensions): Board["axes"] {
-  const { rows, southBorder } = tree;
-  const { westBorder } = rows[0];
-  const { height, colOffset, rowOffset } = dimensions;
-
   return {
     x: {
-      start: COLUMN_ALPHA.charAt(colOffset),
-      position: southBorder ? "south" : "north",
+      start: COLUMN_ALPHA.charAt(dimensions.colOffset),
+      position: tree.southBorder ? "south" : "north",
     },
     y: {
-      start: height - rowOffset,
-      position: westBorder ? "west" : "east",
+      start: dimensions.height - dimensions.rowOffset,
+      position: tree.rows[0].westBorder ? "west" : "east",
     },
   };
 }

@@ -6,9 +6,8 @@ import { makeLines } from "./lines";
 import { ParseTree } from "./parse.pegjs";
 
 export function generateBoard(tree: ParseTree): Board {
-  const { showAxis, title, northBorder, rows, southBorder } = tree;
-  const { westBorder, eastBorder } = rows[0];
-
+  const { title, rows } = tree;
+  const firstRow = rows[0];
   const dimensions = getDimensions(tree);
 
   const makeCell = makeCellFn(tree);
@@ -16,10 +15,10 @@ export function generateBoard(tree: ParseTree): Board {
   const board: Board = {
     cells: rows.map((row) => row.cells.map(makeCell)),
     borders: {
-      north: northBorder,
-      east: eastBorder,
-      south: southBorder,
-      west: westBorder,
+      north: tree.northBorder,
+      east: firstRow.eastBorder,
+      south: tree.southBorder,
+      west: firstRow.westBorder,
     },
   };
 
@@ -27,7 +26,7 @@ export function generateBoard(tree: ParseTree): Board {
     board.title = title;
   }
 
-  if (showAxis) {
+  if (tree.showAxis) {
     board.axes = makeAxes(tree, dimensions);
   }
 
