@@ -21,7 +21,14 @@ const CELL_FOR_TOKEN: {[token: string]: Cell} = {
   "_": { type: CellType.Empty },
 };
 
-function makeAxes(tree: ParseTree): Board["axes"] {
+interface BoardDimensions {
+  width: number;
+  height: number;
+  rowOffset: number;
+  colOffset: number;
+}
+
+function getDimensions(tree: ParseTree): BoardDimensions {
   const { size, northBorder, rows, southBorder } = tree;
 
   const numRows = rows.length;
@@ -32,6 +39,14 @@ function makeAxes(tree: ParseTree): Board["axes"] {
   const height = size || northBorder && southBorder && numRows || 19;
   const colOffset = westBorder ? 0 : width - numCols;
   const rowOffset = northBorder ? 0 : height - numRows;
+
+  return { width, height, rowOffset, colOffset };
+}
+
+function makeAxes(tree: ParseTree, dimensions: BoardDimensions): Board["axes"] {
+  const { rows, southBorder } = tree;
+  const { westBorder } = rows[0];
+  const { height, colOffset, rowOffset } = dimensions;
 
   return {
     x: {
@@ -45,17 +60,8 @@ function makeAxes(tree: ParseTree): Board["axes"] {
   };
 }
 
-function makeLines(tree: ParseTree): Line[] {
-  const { size, northBorder, rows, southBorder, meta } = tree;
-
-  const numRows = rows.length;
-  const { westBorder, cells, eastBorder } = rows[0];
-  const numCols = cells.length;
-
-  const width = size || westBorder && eastBorder && numCols || 19;
-  const height = size || northBorder && southBorder && numRows || 19;
-  const colOffset = westBorder ? 0 : width - numCols;
-  const rowOffset = northBorder ? 0 : height - numRows;
+function makeLines(tree: ParseTree, dimensions: BoardDimensions): Line[] {
+  const { height, colOffset, rowOffset } = dimensions;
 
   function toPoint(parsePoint: ParsePoint): Point {
     if (parsePoint.type === ParsePointType.Board) {
@@ -71,7 +77,7 @@ function makeLines(tree: ParseTree): Line[] {
   }
 
   const lines: Line[] = [];
-  for (const metaItem of meta) {
+  for (const metaItem of tree.meta) {
     if (metaItem.type === "link") {
       continue;
     }
@@ -89,6 +95,7 @@ export function generateBoard(tree: ParseTree): Board {
   const { firstPlayer, showAxis, startingNumber, title, northBorder, rows, southBorder, meta } = tree;
   const { westBorder, eastBorder } = rows[0];
 
+  const dimensions = getDimensions(tree);
   const blackFirst = firstPlayer !== "W";
 
   const links: {[key: string]: string} = {};
@@ -127,10 +134,10 @@ export function generateBoard(tree: ParseTree): Board {
   }
 
   if (showAxis) {
-    board.axes = makeAxes(tree);
+    board.axes = makeAxes(tree, dimensions);
   }
 
-  const lines = makeLines(tree);
+  const lines = makeLines(tree, dimensions);
   if (lines.length !== 0) {
     board.lines = lines;
   }
