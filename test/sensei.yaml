@@ -1,0 +1,421 @@
+# Diagrams from https://senseis.xmp.net/?HowDiagramsWork
+
+name: Basics
+diagram: |
+  $$B A [joseki] variation
+  $$  ------------------
+  $$ | . . . . . . . . .
+  $$ | . . . . . . . . .
+  $$ | . . 7 3 X d . . .
+  $$ | . . O 1 O 6 . . .
+  $$ | . . 4 2 5 c . . .
+  $$ | . . 8 X a . . . .
+  $$ | . . . b . . . . .
+  $$ | . . . . . . . . .
+  $$ | . . . . . . . . .
+match: exact
+board:
+  title: A [joseki] variation
+  borders:
+    north: true
+    east:  false
+    south: false
+    west:  true
+  cells:
+    - &blankline [&i {type: intersection}, *i, *i, *i, *i, *i, *i, *i, *i]
+    - *blankline
+    - [*i, *i, { type: black, label: "7" }, { type: black, label: "3" }, type: black, { type: intersection, label: "d" }, *i, *i, *i]
+    - [*i, *i, type: white, { type: black, label: "1" }, type: white, { type: white, label: "6" }, *i, *i, *i]
+    - [*i, *i, { type: white, label: "4" }, { type: white, label: "2" }, { type: black, label: "5" }, { type: intersection, label: c }, *i, *i, *i]
+    - [*i, *i, { type: white, label: "8" }, type: black, { type: intersection, label: "a" }, *i, *i, *i, *i]
+    - [*i, *i, *i, { type: intersection, label: b }, *i, *i, *i, *i, *i]
+    - *blankline
+    - *blankline
+
+---
+
+name: Moves - Black to play
+diagram: |
+  $$B Black to play
+  $$ . . . . . . . . . . . .
+  $$ . 1 2 3 4 5 6 7 8 9 0 .
+  $$ . . . . . . . . . . . .
+match: exact
+board:
+  title: Black to play
+  borders:
+    north: false
+    east:  false
+    south: false
+    west:  false
+  cells:
+    - &blankline [&i {type: intersection}, *i, *i, *i, *i, *i, *i, *i, *i, *i, *i, *i]
+    -
+      - *i
+      - { type: black, label: "1" }
+      - { type: white, label: "2" }
+      - { type: black, label: "3" }
+      - { type: white, label: "4" }
+      - { type: black, label: "5" }
+      - { type: white, label: "6" }
+      - { type: black, label: "7" }
+      - { type: white, label: "8" }
+      - { type: black, label: "9" }
+      - { type: white, label: "10" }
+      - *i
+    - *blankline
+
+---
+
+name: Moves - White to play
+diagram: |
+  $$W White to play
+  $$ . . . . . . . . . . . .
+  $$ . 1 2 3 4 5 6 7 8 9 0 .
+  $$ . . . . . . . . . . . .
+match: exact
+board:
+  title: White to play
+  borders:
+    north: false
+    east:  false
+    south: false
+    west:  false
+  cells:
+    - &blankline [&i {type: intersection}, *i, *i, *i, *i, *i, *i, *i, *i, *i, *i, *i]
+    -
+      - *i
+      - { type: white, label: "1" }
+      - { type: black, label: "2" }
+      - { type: white, label: "3" }
+      - { type: black, label: "4" }
+      - { type: white, label: "5" }
+      - { type: black, label: "6" }
+      - { type: white, label: "7" }
+      - { type: black, label: "8" }
+      - { type: white, label: "9" }
+      - { type: black, label: "10" }
+      - *i
+    - *blankline
+
+---
+
+name: Moves - Ko
+diagram: |
+  $$W Ko (5 at 1, 8 at 2)
+  $$ . . 3 4 . .
+  $$ . . O X . .
+  $$ . O 2 1 X .
+  $$ . . O X . .
+  $$ . . 7 6 . .
+match: exact
+board:
+  title: Ko (5 at 1, 8 at 2)
+  borders:
+    north: false
+    east:  false
+    south: false
+    west:  false
+  cells:
+    - [&i { type: intersection }, *i, { type: white, label: "3" }, { type: black, label: "4" }, *i, *i]
+    - [*i, *i, &w { type: white }, &b { type: black }, *i, *i]
+    - [*i, *w, { type: black, label: "2" }, { type: white, label: "1" }, *b, *i]
+    - [*i, *i, *w, *b, *i, *i]
+    - [*i, *i, { type: white, label: "7" }, { type: black, label: "6" }, *i, *i]
+
+---
+
+name: Moves - numbering
+diagram: |
+  $$Wm67 Move numbering starts at 67
+  $$ . . . . . . . . . . . .
+  $$ . 1 2 3 4 5 6 7 8 9 0 .
+  $$ . . . . . . . . . . . .
+match: exact
+board:
+  title: Move numbering starts at 67
+  borders:
+    north: false
+    east:  false
+    south: false
+    west:  false
+  cells:
+    - &blankline [&i {type: intersection}, *i, *i, *i, *i, *i, *i, *i, *i, *i, *i, *i]
+    -
+      - *i
+      - { type: white, label: "67" }
+      - { type: black, label: "68" }
+      - { type: white, label: "69" }
+      - { type: black, label: "70" }
+      - { type: white, label: "71" }
+      - { type: black, label: "72" }
+      - { type: white, label: "73" }
+      - { type: black, label: "74" }
+      - { type: white, label: "75" }
+      - { type: black, label: "76" }
+      - *i
+    - *blankline
+
+---
+
+name: Markup
+diagram: |
+  $$ Board markup
+  $$ . 3 . . . . . . . . .
+  $$ 1 2 . a b c . x y z .
+  $$ . . . . . . . . . . .
+  $$ . X . B . # . Y . Z .
+  $$ . . . . . . . . . . .
+  $$ . O . W . @ . Q . P .
+  $$ . . . . . . . . . . .
+  $$ . . . C . S . T . M .
+  $$ . . . . . . . . . . .
+match: exact
+board:
+  title: Board markup
+  borders:
+    north: false
+    east:  false
+    south: false
+    west:  false
+  cells:
+    - [&i { type: intersection }, { type: black, label: "3" }, *i, *i, *i, *i, *i, *i, *i, *i, *i]
+    -
+      - { type: black, label: "1" }
+      - { type: white, label: "2" }
+      - *i
+      - { type: intersection, label: a }
+      - { type: intersection, label: b }
+      - { type: intersection, label: c }
+      - *i
+      - { type: intersection, label: x }
+      - { type: intersection, label: y }
+      - { type: intersection, label: z }
+      - *i
+    - &blankline [*i, *i, *i, *i, *i, *i, *i, *i, *i, *i, *i]
+    -
+      - *i
+      - type: black
+      - *i
+      - { type: black, mark: circle }
+      - *i
+      - { type: black, mark: square }
+      - *i
+      - { type: black, mark: triangle }
+      - *i
+      - { type: black, mark: cross }
+      - *i
+    - *blankline
+    -
+      - *i
+      - type: white
+      - *i
+      - { type: white, mark: circle }
+      - *i
+      - { type: white, mark: square }
+      - *i
+      - { type: white, mark: triangle }
+      - *i
+      - { type: white, mark: cross }
+      - *i
+    - *blankline
+    -
+      - *i
+      - *i
+      - *i
+      - { type: intersection, mark: circle }
+      - *i
+      - { type: intersection, mark: square }
+      - *i
+      - { type: intersection, mark: triangle }
+      - *i
+      - { type: intersection, mark: cross }
+      - *i
+    - *blankline
+
+---
+
+name: Coordinate markers and board size
+diagram: |
+  $$c Nadare joseki
+  $$  --------------
+  $$ | . . . . . . .
+  $$ | . . . . . . .
+  $$ | . . . 1 6 . .
+  $$ | . . 5 4 . . .
+  $$ | . . 3 2 . . .
+  $$ | . . . . . . .
+  $$ | . . . . . . .
+match: exact
+board:
+  title: Nadare joseki
+  axes:
+    x:
+      start: A
+      position: north
+    y:
+      start: 19
+      position: west
+  borders:
+    north: true
+    east:  false
+    south: false
+    west:  true
+  cells:
+    - &blankline [&i { type: intersection }, *i, *i, *i, *i, *i, *i]
+    - *blankline
+    - [*i, *i, *i, { type: black, label: "1" }, { type: white, label: "6" }, *i, *i]
+    - [*i, *i, { type: black, label: "5" }, { type: white, label: "4" }, *i, *i, *i]
+    - [*i, *i, { type: black, label: "3" }, { type: white, label: "2" }, *i, *i, *i]
+    - *blankline
+    - *blankline
+
+---
+
+name: Small board example
+diagram: |
+  $$c13 Nadare joseki on a small board
+  $$  --------------
+  $$ | . . . . . . .
+  $$ | . . . . . . .
+  $$ | . . . 1 6 . .
+  $$ | . . 5 4 . . .
+  $$ | . . 3 2 . . .
+  $$ | . . . . . . .
+  $$ | . . . . . . .
+match: exact
+board:
+  title: Nadare joseki on a small board
+  axes:
+    x:
+      start: A
+      position: north
+    y:
+      start: 13
+      position: west
+  borders:
+    north: true
+    east:  false
+    south: false
+    west:  true
+  cells:
+    - &blankline [&i { type: intersection }, *i, *i, *i, *i, *i, *i]
+    - *blankline
+    - [*i, *i, *i, { type: black, label: "1" }, { type: white, label: "6" }, *i, *i]
+    - [*i, *i, { type: black, label: "5" }, { type: white, label: "4" }, *i, *i, *i]
+    - [*i, *i, { type: black, label: "3" }, { type: white, label: "2" }, *i, *i, *i]
+    - *blankline
+    - *blankline
+
+---
+
+name: Links in diagrams
+diagram: |
+  $$ Links in diagrams - examples
+  $$  --------------
+  $$ | . . . . . . .
+  $$ | . C . . . . .
+  $$ | . . . 1 6 . .
+  $$ | . . 5 4 . . .
+  $$ | . . 3 2 . . .
+  $$ | . . a . . C .
+  $$ | . . . . . . .
+  $$ [2|NadareJoseki]
+  $$ [a|http://gtl.xmp.net/members/info?p_key=349&pseudo=dada]
+  $$ [C|#1]
+match: exact
+board:
+  title: Links in diagrams - examples
+  borders:
+    north: true
+    east:  false
+    south: false
+    west:  true
+  cells:
+    - &blankline [&i { type: intersection }, *i, *i, *i, *i, *i, *i]
+    - [*i, { type: intersection, mark: circle, link: "#1" }, *i, *i, *i, *i, *i]
+    - [*i, *i, *i, { type: black, label: "1" }, { type: white, label: "6" }, *i, *i]
+    - [*i, *i, { type: black, label: "5" }, { type: white, label: "4" }, *i, *i, *i]
+    - [*i, *i, { type: black, label: "3" }, { type: white, label: "2", link: "NadareJoseki" }, *i, *i, *i]
+    - [*i, *i, { type: intersection, label: "a", link: "http://gtl.xmp.net/members/info?p_key=349&pseudo=dada" }, *i, *i, { type: intersection, mark: circle, link: "#1" }, *i]
+    - *blankline
+
+---
+
+name: Lines and Arrows
+diagram: |
+  $$Bc Example: using arrows to show influence
+  $$  ------------------
+  $$ | . . . . . . . . .
+  $$ | . . . . . . . . .
+  $$ | . O O O . O . . .
+  $$ | . O X X X . . . .
+  $$ | . X . . . . . . .
+  $$ | . . X . . . . . .
+  $$ | . . . . . . . . .
+  $$ | . . . . . . . . .
+  $$ | . . . . . . . . .
+  $$ {AR C14 C11}
+  $$ {AR 5:6 5:9}
+match: exact
+board:
+  title: "Example: using arrows to show influence"
+  axes:
+    x:
+      start: A
+      position: north
+    y:
+      start: 19
+      position: west
+  borders:
+    north: true
+    east:  false
+    south: false
+    west:  true
+  cells:
+    - &blankline [&i { type: intersection }, *i, *i, *i, *i, *i, *i, *i, *i]
+    - *blankline
+    - [*i, &w { type: white }, *w, *w, *i, *w, *i, *i, *i]
+    - [*i, *w, &b { type: black }, *b, *b, *i, *i, *i, *i]
+    - [*i, *b, *i, *i, *i, *i, *i, *i, *i]
+    - [*i, *i, *b, *i, *i, *i, *i, *i, *i]
+    - *blankline
+    - *blankline
+    - *blankline
+  lines:
+    - type:  arrow
+      start: { row: 5, col: 2 }
+      end:   { row: 8, col: 2 }
+    - type:  arrow
+      start: { row: 5, col: 4 }
+      end:   { row: 8, col: 4 }
+
+---
+
+name: Comparison diagrams
+diagram: |
+  $$B Example
+  $$ ------------------------
+  $$  _ X O . O _ _ X . X O _
+  $$  _ X O . O _ _ X . X O _
+  $$  _ X O . O _ _ X . X O _
+  $$  _ X W . O _ _ X . . O _
+  $$  _ X . . O _ _ X . B O _
+  $$  _ X O O O _ _ X X X O _
+  $$  _ _ _ _ _ _ _ _ _ _ _ _
+match: exact
+board:
+  title: Example
+  borders:
+    north: true
+    east:  false
+    south: false
+    west:  false
+  cells:
+    - [&e { type: empty }, &b { type: black }, &w { type: white }, &i { type: intersection }, *w, *e, *e, *b, *i, *b, *w, *e]
+    - [*e, *b, *w, *i, *w, *e, *e, *b, *i, *b, *w, *e]
+    - [*e, *b, *w, *i, *w, *e, *e, *b, *i, *b, *w, *e]
+    - [*e, *b, { type: white, mark: circle }, *i, *w, *e, *e, *b, *i, *i, *w, *e]
+    - [*e, *b, *i, *i, *w, *e, *e, *b, *i, { type: black, mark: circle }, *w, *e]
+    - [*e, *b, *w, *w, *w, *e, *e, *b, *b, *b, *w, *e]
+    - [*e, *e, *e, *e, *e, *e, *e, *e, *e, *e, *e, *e]
