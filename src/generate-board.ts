@@ -3,22 +3,23 @@ import { Board } from "./board";
 import { makeCellFn } from "./cell";
 import { makeLines } from "./lines";
 import { getOffset } from "./offset";
-import { ParseTree } from "./parse.pegjs";
+import { ParseTree, ParseTreeIndex, RowIndex } from "./parse.pegjs";
 
 export function generateBoard(tree: ParseTree): Board {
-  const { title, rows } = tree;
+  const title = tree[ParseTreeIndex.Title];
+  const rows = tree[ParseTreeIndex.Rows];
   const firstRow = rows[0];
   const dimensions = getOffset(tree);
 
   const makeCell = makeCellFn(tree);
 
   const board: Board = {
-    cells: rows.map((row) => row.cells.map(makeCell)),
+    cells: rows.map((row) => row[RowIndex.Cells].map(makeCell)),
     borders: {
-      north: tree.northBorder,
-      east: firstRow.eastBorder,
-      south: tree.southBorder,
-      west: firstRow.westBorder,
+      north: tree[ParseTreeIndex.NorthBorder],
+      east: firstRow[RowIndex.EastBorder],
+      south: tree[ParseTreeIndex.SouthBorder],
+      west: firstRow[RowIndex.WestBorder],
     },
   };
 
@@ -26,7 +27,7 @@ export function generateBoard(tree: ParseTree): Board {
     board.title = title;
   }
 
-  if (tree.showAxis) {
+  if (tree[ParseTreeIndex.ShowAxis]) {
     board.axes = makeAxes(tree, dimensions);
   }
 

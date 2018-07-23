@@ -1,32 +1,33 @@
 import { COLUMN_ALPHA, Line, LineType, Point } from "./board";
-import { ParsePoint, ParsePointType, ParseTree } from "./parse.pegjs";
+import { LineMetaItemIndex, ParsePoint, ParsePointIndex, ParseTree, ParseTreeIndex } from "./parse.pegjs";
 
 export function makeLines(tree: ParseTree, offset: Point): Line[] {
   const { col, row } = offset;
 
   function toPoint(parsePoint: ParsePoint): Point {
-    if (parsePoint.type === ParsePointType.Board) {
+    const pCol = parsePoint[ParsePointIndex.Col];
+    if (typeof pCol === "string") {
       return {
-        row: row - parsePoint.row,
-        col: COLUMN_ALPHA.indexOf(parsePoint.col) - col,
+        row: row - parsePoint[ParsePointIndex.Row],
+        col: COLUMN_ALPHA.indexOf(pCol) - col,
       };
     }
     return {
-      row: parsePoint.row - 1,
-      col: parsePoint.col - 1,
+      row: parsePoint[ParsePointIndex.Row] - 1,
+      col: pCol - 1,
     };
   }
 
   const lines: Line[] = [];
-  for (const metaItem of tree.meta) {
-    if (metaItem.type === "link") {
+  for (const metaItem of tree[ParseTreeIndex.Meta]) {
+    if (metaItem.length !== 3) {
       continue;
     }
 
     lines.push({
-      type: metaItem.type === "AR" ? LineType.Arrow : LineType.Line,
-      start: toPoint(metaItem.start),
-      end: toPoint(metaItem.end),
+      type: metaItem[LineMetaItemIndex.Type] === "AR" ? LineType.Arrow : LineType.Line,
+      start: toPoint(metaItem[LineMetaItemIndex.Start]),
+      end: toPoint(metaItem[LineMetaItemIndex.End]),
     });
   }
   return lines;

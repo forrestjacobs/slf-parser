@@ -1,5 +1,5 @@
 import { Cell, CellType, Mark } from "./board";
-import { ParseTree } from "./parse.pegjs";
+import { LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./parse.pegjs";
 
 const BLACK = CellType.Black;
 const WHITE = CellType.White;
@@ -40,45 +40,39 @@ const MARK_FOR_TOKEN: {[token: string]: Mark} = {
   "Z": Mark.Cross,
 };
 
-function getLinks(tree: ParseTree): {[key: string]: string} {
+export function makeCellFn(tree: ParseTree): (token: string) => Cell {
+  const startingNumber = tree[ParseTreeIndex.StartingNumber] || 1;
+  const blackFirst = tree[ParseTreeIndex.FirstPlayer] !== "W";
+
   const links: {[key: string]: string} = {};
-  for (const metaItem of tree.meta) {
-    if (metaItem.type === "link") {
-      links[metaItem.cell] = metaItem.href;
+  for (const metaItem of tree[ParseTreeIndex.Meta]) {
+    if (metaItem.length === 2) {
+      links[metaItem[LinkMetaItemIndex.Cell]] = metaItem[LinkMetaItemIndex.Link];
     }
   }
 
-  return links;
-}
-
-export function makeCellFn(tree: ParseTree): (token: string) => Cell {
-  const startingNumber = tree.startingNumber || 1;
-  const blackFirst = tree.firstPlayer !== "W";
-  const links = getLinks(tree);
-
   function makeCell(token: string): Cell {
+    let cell: Cell;
     const tokenNumber = +token;
     if (!isNaN(tokenNumber)) {
       const num = (tokenNumber === 0 ? 10 : tokenNumber) + startingNumber - 1;
-      return {
+      cell = {
         type: ((num % 2 === 1) === blackFirst) ? BLACK : WHITE,
         label: `${num % 100}`,
       };
+    } else {
+      const type = CELL_TYPE_FOR_TOKEN[token];
+      const mark = MARK_FOR_TOKEN[token];
+      cell = type && mark ? {type, mark} :
+        type ? {type} :
+        { type: INTERSECTION, label: token };
     }
-
-    const type = CELL_TYPE_FOR_TOKEN[token];
-    const mark = MARK_FOR_TOKEN[token];
-    return type && mark ? {type, mark} :
-      type ? {type} :
-      { type: INTERSECTION, label: token };
-  }
-
-  return (token) => {
-    const cell = makeCell(token);
     const link = links[token];
     if (link) {
       cell.link = link;
     }
     return cell;
-  };
+  }
+
+  return makeCell;
 }
