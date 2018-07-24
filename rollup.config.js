@@ -1,22 +1,20 @@
-import commonjs from "rollup-plugin-commonjs";
-import pegjs from "rollup-plugin-pegjs";
-import resolve from "rollup-plugin-node-resolve";
-import typescript from "typescript";
+import { generate } from "pegjs";
+import gzip from "rollup-plugin-gzip";
 import typescriptPlugin from "rollup-plugin-typescript2";
 import { uglify } from "rollup-plugin-uglify";
-import gzip from "rollup-plugin-gzip";
+import typescript from "typescript";
+
+function pegjs(options) {
+  return {
+    transform(grammar, id) {
+      return id.endsWith(".pegjs") ? generate(grammar, { format: "es", output: "source", ...options }) : null;
+    },
+  };
+}
 
 function makePlugins(min) {
   var plugins = [
-    resolve(),
-    pegjs({
-      optimize: min ? "size" : "speed",
-      target: "cjs",
-    }),
-    commonjs({
-      extensions: [".js", ".pegjs"],
-      namedExports: { "src/parse.pegjs": ["parse"] },
-    }),
+    pegjs({ optimize: min ? "size" : "speed" }),
     typescriptPlugin({ typescript }),
   ];
 
