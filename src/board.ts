@@ -11,14 +11,8 @@ export interface Board {
     west: boolean;
   };
   axes?: {
-    x: {
-      start: string;
-      position: "north" | "south";
-    };
-    y: {
-      start: number;
-      position: "east" | "west";
-    };
+    x: Axis<string, "north" | "south">;
+    y: Axis<number, "east" | "west">;
   };
 }
 
@@ -58,4 +52,9 @@ export const enum LineType {
 export interface Point {
   row: number;
   col: number;
+}
+
+export interface Axis<Start, Position> {
+  start: Start;
+  position: Position;
 }
