@@ -6,6 +6,7 @@
     "lib": [
       "es6"
     ],
+    "declaration": true,
     "allowSyntheticDefaultImports": true,
     "inlineSourceMap": true,
     "noFallthroughCasesInSwitch": true,

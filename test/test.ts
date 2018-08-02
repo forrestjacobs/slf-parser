@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from "fs";
 import { safeLoadAll } from "js-yaml";
-import { toBoard } from "../dist/bundle.js";
+import { toBoard } from "../dist/test-bundle.js";
 
 const FIXTURE_PATH = "./test";
 const FIXTURES = readdirSync(FIXTURE_PATH).filter((filename) => filename.endsWith(".yaml"));
