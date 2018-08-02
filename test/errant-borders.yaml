@@ -1,0 +1,69 @@
+name: Forgot right border
+diagram: |
+  $$
+  $$ | . |
+  $$ | .
+error: yes
+
+---
+
+name: Forgot right border 2
+diagram: |
+  $$
+  $$ . |
+  $$ .
+error: yes
+
+---
+
+name: Add right border
+diagram: |
+  $$
+  $$ | .
+  $$ | . |
+error: yes
+
+---
+
+name: Add right border 2
+diagram: |
+  $$
+  $$ .
+  $$ . |
+error: yes
+
+---
+
+name: Forgot left border
+diagram: |
+  $$
+  $$ | . |
+  $$   . |
+error: yes
+
+---
+
+name: Forgot left border 2
+diagram: |
+  $$
+  $$ | .
+  $$   .
+error: yes
+
+---
+
+name: Add left border
+diagram: |
+  $$
+  $$   . |
+  $$ | . |
+error: yes
+
+---
+
+name: Add left border 2
+diagram: |
+  $$
+  $$   .
+  $$ | .
+error: yes

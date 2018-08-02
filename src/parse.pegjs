@@ -6,7 +6,7 @@ diagram
     startingNumber: ("m" natural)?
     _ title: $(!EOL .)* _
     northBorder: edge?
-    rows: row+
+    rows: rows
     southBorder: edge?
     meta: meta*
     EOL
@@ -17,31 +17,40 @@ diagram
       startingNumber && startingNumber[1],
       title,
       northBorder !== null,
-      rows,
+      rows[0],
+      rows[1],
+      rows[2],
       southBorder !== null,
       meta
     ]; }
 
-row
-  = delim westBorder: border? _ cells: cell+ eastBorder: border? _
-    { return [westBorder != null, cells, eastBorder != null]; }
+rows
+  = x: lcr+ { return [true, x, true ]; }
+  / x: lc+ { return [true, x, false ]; }
+  / x: cr+ { return [false, x, true ]; }
+  / x: c+ { return [false, x, false ]; }
 
-cell = v: [0-9a-z.,XOBW#@YQZPCSTM_] _ { return v; }
+lcr = delim border _ x: cell+ border _ { return x; }
+lc = delim border _ x: cell+ { return x; }
+cr = delim x: cell+ border _ { return x; }
+c = delim x: cell+ { return x; }
+
+cell = x: [0-9a-z.,XOBW#@YQZPCSTM_] _ { return x; }
 
 edge = delim (border border+) _
 border = [+\-|]
 
 meta
-  = delim "[" _ cell: cell "|" _ href: $(!(_ "]" EOL) .)* _ "]" _
-    { return [cell, href]; }
+  = delim "[" _ x: cell "|" _ y: $(!(_ "]" EOL) .)* _ "]" _
+    { return [x, y]; }
   / delim "{" _ type: ("AR" / "LN") _ start: point _ end: point _ "}" _
     { return [type, start, end]; }
 
 point
-  = col: natural ":" row: natural
-    { return [row, col]; }
-  / col: [A-HJ-T] row: natural
-    { return [row, col]; }
+  = x: natural ":" y: natural
+    { return [x, y]; }
+  / x: [A-HJ-T] y: natural
+    { return [x, y]; }
 
 natural = v: $([1-9][0-9]*) { return +v; }
 delim = nl dd _

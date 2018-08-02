@@ -1,11 +1,8 @@
-export const enum RowIndex { WestBorder = 0, Cells = 1, EastBorder = 2 }
-export type Row = [boolean, string[], boolean];
-
 export const enum LinkMetaItemIndex { Cell = 0, Link = 1 }
 export type LinkMetaItem = [string, string];
 
-export const enum ParsePointIndex { Row = 0, Col = 1 }
-export type ParsePoint = [number, number | string];
+export const enum ParsePointIndex { Col = 0, Row = 1 }
+export type ParsePoint = [number | string, number];
 
 export const enum LineMetaItemIndex { Type = 0, Start = 1, End = 2 }
 export type LineMetaItem = ["AR" | "LN", ParsePoint, ParsePoint];
@@ -19,9 +16,11 @@ export const enum ParseTreeIndex {
   StartingNumber = 3,
   Title = 4,
   NorthBorder = 5,
-  Rows = 6,
-  SouthBorder = 7,
-  Meta = 8
+  WestBorder = 6,
+  Rows = 7,
+  EastBorder = 8,
+  SouthBorder = 9,
+  Meta = 10
 }
 
 export type ParseTree = [
@@ -31,7 +30,9 @@ export type ParseTree = [
   number | null,
   string,
   boolean,
-  Row[],
+  boolean,
+  string[][],
+  boolean,
   boolean,
   MetaItem[]
 ];

@@ -1,5 +1,5 @@
 import { Board, COLUMN_ALPHA } from "./board";
-import { ParseTree, ParseTreeIndex, RowIndex } from "./parse.pegjs";
+import { ParseTree, ParseTreeIndex } from "./parse.pegjs";
 
 export function makeAxes(tree: ParseTree, rowOffset: number, colOffset: number): Board["axes"] {
   return {
@@ -9,7 +9,7 @@ export function makeAxes(tree: ParseTree, rowOffset: number, colOffset: number):
     },
     y: {
       start: rowOffset,
-      position: tree[ParseTreeIndex.Rows][0][RowIndex.WestBorder] ? "west" : "east",
+      position: tree[ParseTreeIndex.WestBorder] ? "west" : "east",
     },
   };
 }
