@@ -11,3 +11,15 @@ board:
       - link: http://example.com/1
       - link: http://example.com/2
       - link: http://example.com/3
+
+---
+
+name: Link with square bracket
+diagram: |
+  $$
+  $$ 1
+  $$ [ 1 | http://example.com/1?x[]=a ]
+board:
+  cells:
+    -
+      - link: http://example.com/1?x[]=a

@@ -41,7 +41,7 @@ edge = delim (border border+) _
 border = [+\-|]
 
 meta
-  = delim "[" _ x: cell "|" _ y: $(!(_ "]" EOL) .)* _ "]" _
+  = delim "[" _ x: cell "|" _ y: $(!(_ "]" EOL) .)+ _ "]" _
     { return [x, y]; }
   / delim "{" _ type: ("AR" / "LN") _ start: point _ end: point _ "}" _
     { return [type, start, end]; }

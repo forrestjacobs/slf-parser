@@ -2,16 +2,16 @@ name: Empty
 diagram: ""
 error: yes
 ---
-name: Missing second line
-diagram: "$$"
+name: Missing $$
+diagram: "a"
 error: yes
 ---
 name: Missing starting number after "m"
-diagram: "$$m\n$$"
+diagram: "$$m"
 error: yes
 ---
-name: Missing $$
-diagram: "a"
+name: Missing second line
+diagram: "$$"
 error: yes
 ---
 name: Missing second line contents
@@ -20,6 +20,70 @@ error: yes
 ---
 name: Bad cell type
 diagram: "$$\n$$*"
+error: yes
+---
+name: Missing link cell
+diagram: "$$\n$$1\n$$["
+error: yes
+---
+name: Bad link cell
+diagram: "$$\n$$1\n$$[*"
+error: yes
+---
+name: Missing link url
+diagram: "$$\n$$1\n$$[1"
+error: yes
+---
+name: Missing link url 2
+diagram: "$$\n$$1\n$$[1|"
+error: yes
+---
+name: Bad link closing
+diagram: "$$\n$$1\n$$[1|#a"
+error: yes
+---
+name: Bad link closing 2
+diagram: "$$\n$$1\n$$[1|#a]#"
+error: yes
+---
+name: Empty link cell
+diagram: "$$\n$$1\n$$[|#a]"
+error: yes
+---
+name: Empty link url
+diagram: "$$\n$$1\n$$[1|]"
+error: yes
+---
+name: Missing line type
+diagram: "$$\n$$..\n$${"
+error: yes
+---
+name: Bad line type
+diagram: "$$\n$$..\n$${VT 1:1 2:1}"
+error: yes
+---
+name: Missing starting coordinate
+diagram: "$$\n$$..\n$${LN"
+error: yes
+---
+name: Missing ending coordinate
+diagram: "$$\n$$..\n$${LN 1:1"
+error: yes
+---
+name: Bad coordinate
+diagram: "$$\n$$..\n$${LN 1.1"
+error: yes
+---
+name: Bad coordinate 2
+diagram: "$$\n$$..\n$${LN 1:A"
+error: yes
+---
+name: Bad coordinate 3
+diagram: "$$\n$$..\n$${LN AA"
+error: yes
+---
+name: Missing line end
+diagram: "$$\n$$..\n$${LN 1:1 2:1"
 error: yes
 ---
 name: After EOL
