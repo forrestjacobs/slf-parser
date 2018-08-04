@@ -1,0 +1,35 @@
+name: Inconsistent width
+diagram: |
+  $$3
+  $$ | . . |
+error: yes
+
+---
+
+name: Wider than set width
+diagram: |
+  $$2
+  $$ | . . .
+error: yes
+
+---
+
+name: Inconsistent height
+diagram: |
+  $$3
+  $$ ---
+  $$  .
+  $$  .
+  $$ ---
+error: yes
+
+---
+
+name: Taller than set height
+diagram: |
+  $$2
+  $$ ---
+  $$  .
+  $$  .
+  $$  .
+error: yes

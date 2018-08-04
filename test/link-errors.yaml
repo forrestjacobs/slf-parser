@@ -1,0 +1,6 @@
+name: Link not on board
+diagram: |
+  $$
+  $$ .
+  $$ [ 1 | http://example.com/1 ]
+error: yes

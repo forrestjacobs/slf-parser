@@ -1,0 +1,32 @@
+name: Board too big for coordinates
+diagram: |
+  $$c20
+  $$  --
+  $$ | .
+error: yes
+
+---
+
+name: Board too wide for coordinates
+diagram: |
+  $$c
+  $$  ----------------------------------------
+  $$ | . . . . . . . . . . . . . . . . . . . .
+error: yes
+
+---
+
+name: Need NS border
+diagram: |
+  $$c
+  $$ | .
+error: yes
+
+---
+
+name: Need EW border
+diagram: |
+  $$c
+  $$ ---
+  $$  .
+error: yes

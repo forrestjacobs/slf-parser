@@ -1,0 +1,6 @@
+name: Inconsistent row sizes
+diagram: |
+  $$
+  $$ .
+  $$ . .
+error: yes
