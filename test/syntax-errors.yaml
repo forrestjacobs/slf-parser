@@ -2,6 +2,14 @@ name: Empty
 diagram: ""
 error: yes
 ---
+name: Character between 0x0 and 0xF
+diagram: "\a"
+error: yes
+---
+name: Character between 0x10 and 0x1F
+diagram: "\e"
+error: yes
+---
 name: Missing $$
 diagram: "a"
 error: yes
