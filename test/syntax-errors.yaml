@@ -42,14 +42,6 @@ name: Bad link closing
 diagram: "$$\n$$1\n$$[1|#a"
 error: yes
 ---
-name: Bad link closing 2
-diagram: "$$\n$$1\n$$[1|#a]#"
-error: yes
----
-name: Empty link cell
-diagram: "$$\n$$1\n$$[|#a]"
-error: yes
----
 name: Empty link url
 diagram: "$$\n$$1\n$$[1|]"
 error: yes
