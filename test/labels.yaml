@@ -68,6 +68,17 @@ board:
 
 ---
 
+name: Start at 100
+diagram: |
+  $$m100
+  $$ 1
+board:
+  cells:
+    -
+      - label: "0"
+
+---
+
 name: Even moves are white
 diagram: |
   $$m2
