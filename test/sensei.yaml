@@ -251,10 +251,10 @@ board:
   title: Nadare joseki
   axes:
     x:
-      start: A
+      labels: ABCDEFG
       position: north
     y:
-      start: 19
+      labels: [19, 18, 17, 16, 15, 14, 13]
       position: west
   borders:
     north: true
@@ -288,10 +288,10 @@ board:
   title: Nadare joseki on a small board
   axes:
     x:
-      start: A
+      labels: ABCDEFG
       position: north
     y:
-      start: 13
+      labels: [13, 12, 11, 10, 9, 8, 7]
       position: west
   borders:
     north: true
@@ -362,10 +362,10 @@ board:
   title: "Example: using arrows to show influence"
   axes:
     x:
-      start: A
+      labels: ABCDEFGHJ
       position: north
     y:
-      start: 19
+      labels: [19, 18, 17, 16, 15, 14, 13, 12, 11]
       position: west
   borders:
     north: true

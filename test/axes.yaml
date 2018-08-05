@@ -9,11 +9,23 @@ diagram: |
 board:
   axes:
     x:
-      start: A
+      labels: ABC
       position: south
     y:
-      start: 3
+      labels: [3, 2, 1]
       position: west
+
+---
+
+name: Skip I
+diagram: |
+  $$c
+  $$  ------------------
+  $$ | . . . . . . . . .
+board:
+  axes:
+    x:
+      labels: ABCDEFGHJ
 
 ---
 
@@ -22,13 +34,15 @@ diagram: |
   $$c
   $$ ----
   $$ . . |
+  $$ . . |
+  $$ . . |
 board:
   axes:
     x:
-      start: S
+      labels: ST
       position: north
     y:
-      start: 19
+      labels: [19, 18, 17]
       position: east
 
 ---
@@ -38,13 +52,15 @@ diagram: |
   $$c13
   $$ ----
   $$ . . |
+  $$ . . |
+  $$ . . |
 board:
   axes:
     x:
-      start: M
+      labels: MN
       position: north
     y:
-      start: 13
+      labels: [13, 12, 11]
       position: east
 
 ---
@@ -52,14 +68,15 @@ board:
 name: SW
 diagram: |
   $$c
-  $$ | .
-  $$ | .
-  $$  --
+  $$ | . .
+  $$ | . .
+  $$ | . .
+  $$  ----
 board:
   axes:
     x:
-      start: A
+      labels: AB
       position: south
     y:
-      start: 2
+      labels: [3, 2, 1]
       position: west

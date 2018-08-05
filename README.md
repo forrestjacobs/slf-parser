@@ -24,6 +24,7 @@ const board = toBoard(diagram);
 
 console.log(board.title);       // "A joseki variation"
 console.log(board.cells[2][2]); // { type: "black", label: "7" }
-console.log(board.axis.x);      // { start: "A", position: "north" }
+console.log(board.axis.x);      // { labels: "ABCDEFGHJ", position: "north" }
+console.log(board.axis.y);      // { labels: [19, 18, 17, 16, 15, 14, 13, 12, 11], position:  "west" }
 console.log(board.borders);     // { north: true, east: false, south: false, west: true }
 ```

@@ -1,5 +1,3 @@
-export const COLUMN_ALPHA = "ABCDEFGHJKLMNOPQRST";
-
 export interface Board {
   title?: string;
   cells: Cell[][];
@@ -12,7 +10,7 @@ export interface Board {
   };
   axes?: {
     x: Axis<string, "north" | "south">;
-    y: Axis<number, "east" | "west">;
+    y: Axis<number[], "east" | "west">;
   };
 }
 
@@ -54,7 +52,7 @@ export interface Point {
   col: number;
 }
 
-export interface Axis<Start, Position> {
-  start: Start;
+export interface Axis<Label, Position> {
+  labels: Label;
   position: Position;
 }

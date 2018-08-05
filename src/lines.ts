@@ -1,4 +1,5 @@
-import { COLUMN_ALPHA, Line, LineType, Point } from "./board";
+import { COLUMN_ALPHA } from "./axes";
+import { Line, LineType, Point } from "./board";
 import { LineMetaItemIndex, ParsePoint, ParsePointIndex, ParseTree, ParseTreeIndex } from "./parse.pegjs";
 
 export function makeLines(tree: ParseTree, rowOffset: number, colOffset: number): Line[] {
