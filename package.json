@@ -4,6 +4,17 @@
   "description": "Parses Go diagrams",
   "author": "Forrest Jacobs <forrestjacobs@gmail.com>",
   "license": "MIT",
+  "main": "./dist/bundle-cjs.js",
+  "module": "./dist/bundle-es.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "test": "jest",
+    "precommit": "npm run lint && npm run build && npm test"
+  },
+  "files": ["dist"],
   "devDependencies": {
     "@types/jest": "^23.3.0",
     "@types/js-yaml": "^3.11.2",
@@ -18,17 +29,6 @@
     "tslint-sonarts": "^1.7.0",
     "typescript": "^2.9.2"
   },
-  "main": "./dist/bundle-cjs.js",
-  "module": "./dist/bundle-es.js",
-  "types": "./dist/index.d.ts",
-  "scripts": {
-    "build": "rollup -c",
-    "build:watch": "rollup -c -w",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
-    "test:nobuild": "jest",
-    "test": "npm run build && npm run test:nobuild",
-    "precommit": "npm run lint && npm test"
-  },
   "jest": {
     "transform": {
       "\\.ts$": "ts-jest"
@@ -42,5 +42,12 @@
     "collectCoverageFrom": [
       "dist/test-bundle.js"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/forrestjacobs/slf-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/forrestjacobs/slf-parser/issues"
   }
 }
