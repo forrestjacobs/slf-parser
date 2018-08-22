@@ -17,7 +17,13 @@ function pegjs(options) {
         .replace('if ("startRule" in options)', "if (false)")
         .replace("if (invert)", "if (true)")
         .replace('+ (expectation.inverted ? "^" : "") +', '+')
-        .replace(/other:[^,]+,/, '')
+        .replace(/(peg\$classExpectation\(.*), false, false\)/g, "$1)")
+        .replace("peg$classExpectation(parts, inverted, ignoreCase)", "peg$classExpectation(parts)")
+        .replace(", inverted: inverted, ignoreCase: ignoreCase", "")
+        .replace(/(peg\$literalExpectation\(.*), false\)/g, "$1)")
+        .replace("peg$literalExpectation(text, ignoreCase)", "peg$literalExpectation(text)")
+        .replace(", ignoreCase: ignoreCase", "")
+        .replace(/case (0|13|19|25|28|29):.*?(?=break;)break;/sg, "")
         .replace(/(function classEscape.*)\.replace\(\/\[\\x00-\\x0F\]\/g, *function\(ch\) { return "\\\\x0" \+ hex\(ch\); }\)/s, "$1")
         .replace(/(function classEscape.*)\.replace\(\/\[\\x10-\\x1F\\x7F-\\x9F\]\/g, function\(ch\) { return "\\\\x"  \+ hex\(ch\); }\)/s, "$1");
     },
