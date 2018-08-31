@@ -1,5 +1,5 @@
 import { Cell, CellType, Mark } from "./board";
-import { LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./parse.pegjs";
+import { LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./parsetree";
 
 const BLACK = CellType.Black;
 const WHITE = CellType.White;

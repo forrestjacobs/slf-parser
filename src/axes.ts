@@ -1,5 +1,5 @@
 import { Board } from "./board";
-import { ParseTree, ParseTreeIndex } from "./parse.pegjs";
+import { ParseTree, ParseTreeIndex } from "./parsetree";
 
 export const COLUMN_ALPHA = "ABCDEFGHJKLMNOPQRST";
 

@@ -2,7 +2,7 @@ import { makeAxes } from "./axes";
 import { Board } from "./board";
 import { makeCellFn } from "./cell";
 import { makeLines } from "./lines";
-import { ParseTree, ParseTreeIndex } from "./parse.pegjs";
+import { ParseTree, ParseTreeIndex } from "./parsetree";
 
 export function generateBoard(tree: ParseTree): Board {
   const size = tree[ParseTreeIndex.Size];

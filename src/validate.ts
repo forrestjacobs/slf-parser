@@ -1,4 +1,4 @@
-import { LinkMetaItem, LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./parse.pegjs";
+import { LinkMetaItem, LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./parsetree";
 
 export function validate(tree: ParseTree): string[] {
   const issues: string[] = [];
