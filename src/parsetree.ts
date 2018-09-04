@@ -24,10 +24,10 @@ export const enum ParseTreeIndex {
 }
 
 export type ParseTree = [
-  "B" | "W" | null,
+  "B" | "W" | undefined,
   boolean,
-  number | null,
-  number | null,
+  number | undefined,
+  number | undefined,
   string,
   boolean,
   boolean,

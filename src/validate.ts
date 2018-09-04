@@ -3,8 +3,6 @@ import { LinkMetaItem, LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./pa
 export function validate(tree: ParseTree): string[] {
   const issues: string[] = [];
 
-  addCellIssues(issues, tree);
-
   const links = tree[ParseTreeIndex.Meta].filter((item) => item.length === 2) as LinkMetaItem[];
   addLinkIssues(issues, tree, links);
 
@@ -14,19 +12,11 @@ export function validate(tree: ParseTree): string[] {
     addAxisIssues(issues, tree);
   }
 
-  if (tree[ParseTreeIndex.Size] !== null) {
+  if (tree[ParseTreeIndex.Size] !== undefined) {
     addSizeIssues(issues, tree);
   }
 
   return issues;
-}
-
-function addCellIssues(issues: string[], tree: ParseTree) {
-  const rows = tree[ParseTreeIndex.Rows];
-  const numCols = rows[0].length;
-  if (rows.some((row) => row.length !== numCols)) {
-    issues.push("Number of cells in each row is inconsistent");
-  }
 }
 
 // todo: same link twice
