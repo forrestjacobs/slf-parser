@@ -1,4 +1,4 @@
-import { LinkMetaItem, LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./parsetree";
+import { LinkMetaItem, LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./parse-tree";
 
 export function validate(tree: ParseTree): string[] {
   const issues: string[] = [];

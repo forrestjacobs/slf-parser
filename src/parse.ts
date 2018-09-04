@@ -1,4 +1,4 @@
-import { MetaItem, ParsePoint, ParseTree } from "./parsetree";
+import { MetaItem, ParsePoint, ParseTree } from "./parse-tree";
 
 export function parse(slf: string): ParseTree {
   slf = slf.replace(/\r\n/g, "\n").replace(/[ \t\n]+$/, "");
