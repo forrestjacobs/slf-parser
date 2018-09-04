@@ -7,8 +7,6 @@ export type ParsePoint = [number | string, number];
 export const enum LineMetaItemIndex { Type = 0, Start = 1, End = 2 }
 export type LineMetaItem = ["AR" | "LN", ParsePoint, ParsePoint];
 
-export type MetaItem = LinkMetaItem | LineMetaItem;
-
 export const enum ParseTreeIndex {
   FirstPlayer = 0,
   ShowAxis = 1,
@@ -20,7 +18,8 @@ export const enum ParseTreeIndex {
   Rows = 7,
   EastBorder = 8,
   SouthBorder = 9,
-  Meta = 10,
+  Links = 10,
+  Lines = 11,
 }
 
 export type ParseTree = [
@@ -34,7 +33,8 @@ export type ParseTree = [
   string[][],
   boolean,
   boolean,
-  MetaItem[]
+  LinkMetaItem[],
+  LineMetaItem[]
 ];
 
 export declare function parse(slf: string): ParseTree;

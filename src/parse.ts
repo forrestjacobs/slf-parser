@@ -1,4 +1,4 @@
-import { MetaItem, ParsePoint, ParseTree } from "./parse-tree";
+import { LineMetaItem, LinkMetaItem, ParsePoint, ParseTree } from "./parse-tree";
 
 export function parse(slf: string): ParseTree {
   slf = slf.replace(/\r\n/g, "\n").replace(/[ \t\n]+$/, "");
@@ -111,8 +111,7 @@ export function parse(slf: string): ParseTree {
   const cells = [firstRow];
   const cols = firstRow.length;
 
-  const meta: MetaItem[] = [];
-
+  const links: LinkMetaItem[] = [];
   function matchLink(): boolean {
     if (!buildExpectation(match(1, /\[/), "link start")) {
       return false;
@@ -124,7 +123,7 @@ export function parse(slf: string): ParseTree {
     const url = expect(match(sizeForLine(), /(.+?)[ \t]*\][ \t]*$/, 1), "url");
     skipWhitespace();
     expect(match(1, /]/), "link end");
-    meta.push([cell, url]);
+    links.push([cell, url]);
     return true;
   }
 
@@ -140,6 +139,7 @@ export function parse(slf: string): ParseTree {
     return [c, r];
   }
 
+  const lines: LineMetaItem[] = [];
   function matchLine(): boolean {
     if (!buildExpectation(match(1, /{/), "line start")) {
       return false;
@@ -152,7 +152,7 @@ export function parse(slf: string): ParseTree {
     const end = expectPoint();
     skipWhitespace();
     expect(match(1, /}/), "line end");
-    meta.push([type, start, end]);
+    lines.push([type, start, end]);
     return true;
   }
 
@@ -178,7 +178,7 @@ export function parse(slf: string): ParseTree {
   }
 
   while (index < length) {
-    if (southBorder || meta.length !== 0) {
+    if (southBorder || links.length !== 0 || lines.length !== 0) {
       expect(matchLink() || matchLine());
     } else {
       expect(matchLink() || matchLine() || matchSouthBorder() || expectRow());
@@ -187,17 +187,7 @@ export function parse(slf: string): ParseTree {
     expectDelimOrEof();
   }
 
-  return [
-    firstPlayer,
-    showAxis,
-    size,
-    startingNumber,
-    title,
-    northBorder,
-    westBorder,
-    cells,
-    eastBorder,
-    southBorder,
-    meta,
-  ];
+  return [firstPlayer, showAxis, size, startingNumber, title,
+    northBorder, westBorder, cells, eastBorder, southBorder,
+    links, lines];
 }

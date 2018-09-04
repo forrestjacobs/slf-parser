@@ -45,10 +45,8 @@ export function makeCellFn(tree: ParseTree): (token: string) => Cell {
   const blackFirst = tree[ParseTreeIndex.FirstPlayer] !== "W";
 
   const links: {[key: string]: string} = {};
-  for (const metaItem of tree[ParseTreeIndex.Meta]) {
-    if (metaItem.length === 2) {
-      links[metaItem[LinkMetaItemIndex.Cell]] = metaItem[LinkMetaItemIndex.Link];
-    }
+  for (const metaItem of tree[ParseTreeIndex.Links]) {
+    links[metaItem[LinkMetaItemIndex.Cell]] = metaItem[LinkMetaItemIndex.Link];
   }
 
   function makeCell(token: string): Cell {

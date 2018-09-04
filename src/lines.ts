@@ -18,11 +18,7 @@ export function makeLines(tree: ParseTree, rowOffset: number, colOffset: number)
   }
 
   const lines: Line[] = [];
-  for (const metaItem of tree[ParseTreeIndex.Meta]) {
-    if (metaItem.length !== 3) {
-      continue;
-    }
-
+  for (const metaItem of tree[ParseTreeIndex.Lines]) {
     lines.push({
       type: metaItem[LineMetaItemIndex.Type] === "AR" ? LineType.Arrow : LineType.Line,
       start: toPoint(metaItem[LineMetaItemIndex.Start]),

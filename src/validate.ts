@@ -3,8 +3,7 @@ import { LinkMetaItem, LinkMetaItemIndex, ParseTree, ParseTreeIndex } from "./pa
 export function validate(tree: ParseTree): string[] {
   const issues: string[] = [];
 
-  const links = tree[ParseTreeIndex.Meta].filter((item) => item.length === 2) as LinkMetaItem[];
-  addLinkIssues(issues, tree, links);
+  addLinkIssues(issues, tree, tree[ParseTreeIndex.Links]);
 
   // todo: line on board
 
