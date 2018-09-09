@@ -1,193 +1,159 @@
+import { EOT_MATCHER, makeRegExpMatcher, makeStringMatcher, skipWsPost } from "./matchers";
 import { LineMetaItem, LinkMetaItem, ParsePoint, ParseTree } from "./parse-tree";
+import { NamedMatcher, Parser } from "./parser";
+
+const NUMBER_TITLE_MATCHER: NamedMatcher<number> = ["number", (body, index) => {
+  const result = body.substr(index).match(/^[0-9]+/);
+  if (result !== null) {
+    const str = result[0];
+    return [+str, str.length];
+  }
+  return;
+}];
+const NUMBER_MATCHER = skipWsPost(NUMBER_TITLE_MATCHER);
+
+const $$_TITLE_MATCHER = makeStringMatcher("$$");
+const $$_MATCHER = skipWsPost($$_TITLE_MATCHER);
+
+const NEWLINE_MATCHER = makeStringMatcher("\n", "new line");
+
+const BLACK_MATCHER = makeStringMatcher("B");
+const WHITE_MATCHER = makeStringMatcher("W");
+const AXIS_MATCHER = makeStringMatcher("c");
+const M_MATCHER = makeStringMatcher("m");
+const TITLE_MATCHER = makeRegExpMatcher("title", /[^$]*/);
+
+const HORIZONTAL_BORDER_MATCHER = skipWsPost(makeRegExpMatcher("horizontal border", /^[-|+]{2,}/));
+const VERTICAL_BORDER_MATCHER = skipWsPost(makeRegExpMatcher("vertical border", /[-|+]/, 1));
+const CELL_MATCHER = skipWsPost(makeRegExpMatcher("cell", /[0-9a-z.,XOBW#@YQZPCSTM_]/, 1));
+
+const LINK_START_MATCHER = skipWsPost(makeStringMatcher("["));
+const LINK_SEPARATOR_MATCHER = skipWsPost(makeStringMatcher("|"));
+const LINK_URL_MATCHER = skipWsPost(makeRegExpMatcher("url", /[^ \t]+(?=[ \t]*\][ \t]*$)/));
+const LINK_END_MATCHER = skipWsPost(makeStringMatcher("]"));
+
+const LINE_START_MATCHER = skipWsPost(makeStringMatcher("{"));
+const ARROW_MATCHER = skipWsPost(makeStringMatcher("AR"));
+const LINE_MATCHER = skipWsPost(makeStringMatcher("LN"));
+const COLON_MATCHER = skipWsPost(makeStringMatcher(":"));
+const COLUMN_MATCHER = skipWsPost(makeRegExpMatcher("column", /[A-HJ-T]/, 1));
+const LINE_END_MATCHER = skipWsPost(makeStringMatcher("}"));
+
+function isDefined<T>(value: T | undefined): boolean {
+  return value !== undefined;
+}
 
 export function parse(slf: string): ParseTree {
-  slf = slf.replace(/\r\n/g, "\n").replace(/[ \t\n]+$/, "");
-  const length = (slf.match(/[ \t\n]*$/) as RegExpMatchArray).index as number;
-  let index = (slf.match(/^[ \t\n]*/) as RegExpMatchArray)[0].length;
-
-  let expectations: string[] = [];
-
-  function buildExpectation<V>(value: V, valueDescription?: string | undefined): V {
-    if (value) {
-      expectations = [];
-    } else if (valueDescription) {
-      expectations.push(valueDescription);
-    }
-    return value;
-  }
-
-  function expect(value: boolean, valueDescription?: string | undefined): true;
-  function expect<V>(value: V | undefined, valueDescription?: string | undefined): V;
-  function expect(value: any, valueDescription?: string | undefined) {
-    if (!buildExpectation(value, valueDescription)) {
-      throw new Error(`${index}: Expected ${expectations.join(", ")}`);
-    }
-    return value;
-  }
-
-  function sizeForLine() {
-    const indexOfNewline = slf.indexOf("\n", index);
-    return (indexOfNewline === -1 ? length : indexOfNewline) - index;
-  }
-
-  function match(bufferSize: number, regexp: RegExp, group?: number): string | undefined {
-    const result = slf.substr(index, bufferSize).match(regexp);
-    if (result === null) {
-      return;
-    }
-    const str = result[group || 0];
-    index += str.length;
-    return str;
-  }
-
-  function skipWhitespace() {
-    match(sizeForLine(), /^[ \t]*/);
-  }
-
-  function matchNatural(): number | undefined {
-    const natural = match(sizeForLine(), /^[1-9][0-9]*/);
-    return natural ? +natural : undefined;
-  }
-
-  function expect$$() {
-    expect(match(2, /\$\$/), "$$");
-  }
+  const body = slf.replace(/\r\n/g, "\n");
+  const start = (slf.match(/^[ \t\n]*/) as RegExpMatchArray)[0].length;
+  const end = (slf.match(/[ \t\n]*$/) as RegExpMatchArray).index as number;
+  const { expect, match } = new Parser(body, start, end);
 
   function expectDelim() {
-    expect(match(1, /\n/), "new line");
-    skipWhitespace();
-    expect$$();
-    skipWhitespace();
+    expect(NEWLINE_MATCHER);
+    expect($$_MATCHER);
   }
 
-  function expectDelimOrEof() {
-    if (!buildExpectation(index === length, "end")) {
-      expectDelim();
-    }
-  }
-
-  function matchLatitudinalBorder(): boolean {
-    const border = match(sizeForLine(), /^[-|+]{2,}/) !== undefined;
-    skipWhitespace();
-    return border;
-  }
-
-  function matchLongitudinalBorder(): boolean {
-    const border = match(1, /[-|+]/) !== undefined;
-    skipWhitespace();
-    return border;
-  }
-
-  function matchCell(): string | undefined {
-    const cell = match(1, /[0-9a-z.,XOBW#@YQZPCSTM_]/);
-    skipWhitespace();
-    return cell;
-  }
-
-  expect$$();
-  const firstPlayer = match(1, /[BW]/) as "B" | "W" | undefined;
-  const showAxis = match(1, /c/) === "c";
-  const size = matchNatural();
-  const startingNumber = match(1, /m/) === "m" ? expect(matchNatural(), "starting number") : undefined;
-  skipWhitespace();
-  const title = match(sizeForLine(), /(.*?)[ \t]*$/, 1) || "";
-  skipWhitespace();
+  expect($$_TITLE_MATCHER);
+  const isBlackFirst = isDefined(match(BLACK_MATCHER)) || !isDefined(match(WHITE_MATCHER));
+  const showAxis = isDefined(match(AXIS_MATCHER));
+  const size = match(NUMBER_TITLE_MATCHER);
+  const startingNumber = isDefined(match(M_MATCHER)) ? expect(NUMBER_TITLE_MATCHER) : undefined;
+  const title = expect(TITLE_MATCHER).trim();
   expectDelim();
 
-  const northBorder = buildExpectation(matchLatitudinalBorder(), "north border");
+  const northBorder = isDefined(match(HORIZONTAL_BORDER_MATCHER));
   if (northBorder) {
     expectDelim();
   }
 
-  const westBorder = buildExpectation(matchLongitudinalBorder(), "west border");
+  const westBorder = isDefined(match(VERTICAL_BORDER_MATCHER));
   const firstRow: string[] = [];
-  for (let c: string | undefined = expect(matchCell(), "cell"); c !== undefined; c = matchCell()) {
+  for (let c: string | undefined = expect(CELL_MATCHER); c !== undefined; c = match(CELL_MATCHER)) {
     firstRow.push(c);
   }
-  buildExpectation(false, "cell");
-  const eastBorder = buildExpectation(matchLongitudinalBorder(), "east border");
-  expectDelimOrEof();
+  const eastBorder = isDefined(match(VERTICAL_BORDER_MATCHER));
 
   const cells = [firstRow];
   const cols = firstRow.length;
 
   const links: LinkMetaItem[] = [];
   function matchLink(): boolean {
-    if (!buildExpectation(match(1, /\[/), "link start")) {
+    if (!match(LINK_START_MATCHER)) {
       return false;
     }
-    skipWhitespace();
-    const cell = expect(matchCell(), "cell");
-    expect(match(1, /\|/), "pipe");
-    skipWhitespace();
-    const url = expect(match(sizeForLine(), /(.+?)[ \t]*\][ \t]*$/, 1), "url");
-    skipWhitespace();
-    expect(match(1, /]/), "link end");
+    const cell = expect(CELL_MATCHER);
+    expect(LINK_SEPARATOR_MATCHER);
+    const url = expect(LINK_URL_MATCHER);
+    expect(LINK_END_MATCHER);
     links.push([cell, url]);
     return true;
   }
 
   function expectPoint(): ParsePoint {
-    const x = buildExpectation(matchNatural(), "number");
+    const x = match(NUMBER_MATCHER);
     if (x !== undefined) {
-      expect(match(1, /:/), "colon");
-      const y = expect(matchNatural(), "number");
+      expect(COLON_MATCHER);
+      const y = expect(NUMBER_MATCHER);
       return [x, y];
     }
-    const c = expect(match(1, /[A-HJ-T]/), "column");
-    const r = expect(matchNatural(), "number");
+    const c = expect(COLUMN_MATCHER);
+    const r = expect(NUMBER_MATCHER);
     return [c, r];
   }
 
   const lines: LineMetaItem[] = [];
-  function matchLine(): boolean {
-    if (!buildExpectation(match(1, /{/), "line start")) {
+  function matchLine(expected: boolean): boolean {
+    if (expected) {
+      expect(LINE_START_MATCHER);
+    } else if (!match(LINE_START_MATCHER)) {
       return false;
     }
-    skipWhitespace();
-    const type = expect(match(2, /(AR|LN)/), "arrow or line") as "AR" | "LN";
-    skipWhitespace();
-    const start = expectPoint();
-    skipWhitespace();
-    const end = expectPoint();
-    skipWhitespace();
-    expect(match(1, /}/), "line end");
-    lines.push([type, start, end]);
+
+    const isArrow = isDefined(match(ARROW_MATCHER));
+    if (!isArrow) {
+      expect(LINE_MATCHER);
+    }
+    const startPoint = expectPoint();
+    const endPoint = expectPoint();
+    expect(LINE_END_MATCHER);
+    lines.push([isArrow, startPoint, endPoint]);
     return true;
   }
 
   let southBorder = false;
   function matchSouthBorder(): boolean {
-    southBorder = buildExpectation(matchLatitudinalBorder(), "south border");
+    southBorder = isDefined(match(HORIZONTAL_BORDER_MATCHER));
     return southBorder;
   }
 
   function expectRow(): true {
     if (westBorder) {
-      expect(matchLongitudinalBorder(), "west border");
+      expect(VERTICAL_BORDER_MATCHER);
     }
     const row = [];
     for (let col = 0; col < cols; col++) {
-      row.push(expect(matchCell(), "cell"));
+      row.push(expect(CELL_MATCHER));
     }
     cells.push(row);
     if (eastBorder) {
-      expect(matchLongitudinalBorder(), "east border");
+      expect(VERTICAL_BORDER_MATCHER);
     }
     return true;
   }
 
-  while (index < length) {
+  while (!match(EOT_MATCHER)) {
+    expectDelim();
     if (southBorder || links.length !== 0 || lines.length !== 0) {
-      expect(matchLink() || matchLine());
+      // tslint:disable-next-line:no-unused-expression
+      matchLink() || matchLine(true);
     } else {
-      expect(matchLink() || matchLine() || matchSouthBorder() || expectRow());
+      // tslint:disable-next-line:no-unused-expression
+      matchLink() || matchLine(false) || matchSouthBorder() || expectRow();
     }
-    skipWhitespace();
-    expectDelimOrEof();
   }
 
-  return [firstPlayer, showAxis, size, startingNumber, title,
+  return [isBlackFirst, showAxis, size, startingNumber, title,
     northBorder, westBorder, cells, eastBorder, southBorder,
     links, lines];
 }

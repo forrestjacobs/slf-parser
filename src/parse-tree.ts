@@ -4,11 +4,11 @@ export type LinkMetaItem = [string, string];
 export const enum ParsePointIndex { Col = 0, Row = 1 }
 export type ParsePoint = [number | string, number];
 
-export const enum LineMetaItemIndex { Type = 0, Start = 1, End = 2 }
-export type LineMetaItem = ["AR" | "LN", ParsePoint, ParsePoint];
+export const enum LineMetaItemIndex { IsArrow = 0, Start = 1, End = 2 }
+export type LineMetaItem = [boolean, ParsePoint, ParsePoint];
 
 export const enum ParseTreeIndex {
-  FirstPlayer = 0,
+  IsBlackFirst = 0,
   ShowAxis = 1,
   Size = 2,
   StartingNumber = 3,
@@ -23,7 +23,7 @@ export const enum ParseTreeIndex {
 }
 
 export type ParseTree = [
-  "B" | "W" | undefined,
+  boolean,
   boolean,
   number | undefined,
   number | undefined,

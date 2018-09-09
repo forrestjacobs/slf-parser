@@ -42,7 +42,7 @@ const MARK_FOR_TOKEN: {[token: string]: Mark} = {
 
 export function makeCellFn(tree: ParseTree): (token: string) => Cell {
   const startingNumber = tree[ParseTreeIndex.StartingNumber] || 1;
-  const blackFirst = tree[ParseTreeIndex.FirstPlayer] !== "W";
+  const isBlackFirst = tree[ParseTreeIndex.IsBlackFirst];
 
   const links: {[key: string]: string} = {};
   for (const metaItem of tree[ParseTreeIndex.Links]) {
@@ -55,7 +55,7 @@ export function makeCellFn(tree: ParseTree): (token: string) => Cell {
     if (!isNaN(tokenNumber)) {
       const num = (tokenNumber === 0 ? 10 : tokenNumber) + startingNumber - 1;
       cell = {
-        type: ((num % 2 === 1) === blackFirst) ? BLACK : WHITE,
+        type: ((num % 2 === 1) === isBlackFirst) ? BLACK : WHITE,
         label: `${num % 100}`,
       };
     } else {
